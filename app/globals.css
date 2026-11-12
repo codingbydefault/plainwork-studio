@@ -67,3 +67,30 @@ input,select,textarea{background:#fff;color:#15283b;border-color:#d7e0e7}
 .detail-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.detail-related-card{text-decoration:none;display:grid;gap:11px}.detail-related-cover{height:245px;padding:20px;border-radius:13px;background-position:center;background-size:cover;color:white;display:flex;flex-direction:column;justify-content:space-between}.detail-related-cover span{font-size:11px;font-weight:800;text-transform:uppercase}.detail-related-cover strong{font-size:21px;line-height:1.13;letter-spacing:-.04em}.detail-related-link{font-size:13px;font-weight:800;color:#9d633f}
 @media(max-width:800px){.detail-hero{grid-template-columns:1fr;gap:32px}.detail-photo-cover{width:min(100%,390px);height:450px}.detail-copy{padding-top:0}.detail-related-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:540px){.detail-related-grid{grid-template-columns:1fr}.detail-related-cover{height:180px}.detail-upsell{padding:25px}.detail-hero{margin-bottom:45px}.detail-copy h1{font-size:37px}}
+
+/* Hero v3: clear seller / buyer split on a calm white canvas. */
+.clear-market-hero{display:block;min-height:0;padding:54px 58px 34px;background:#f9f8f5;border:1px solid #ece9e4;border-radius:24px}
+.clear-hero-intro{max-width:900px;margin:0 auto;text-align:center}
+.clear-hero-kicker{color:#a16a45;font-weight:850;font-size:11px;letter-spacing:.13em;display:flex;align-items:center;justify-content:center;gap:9px}
+.clear-kicker-mark{font-size:20px}
+.clear-market-hero .clear-hero-intro h1{color:#172c3e;font-size:clamp(38px,5vw,65px);font-weight:900;line-height:1.09;letter-spacing:-.065em;margin:18px auto 12px;max-width:860px}
+.clear-market-hero .clear-hero-intro h1 span{color:#b9693b}
+.clear-hero-slogan{font-size:17px;color:#324d60;font-weight:750;letter-spacing:-.01em;margin:0 0 13px}
+.clear-hero-explainer{font-size:15px;line-height:1.55;color:#607483;margin:0 auto;max-width:620px}
+.hero-journeys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1020px;margin:34px auto 0;text-align:left}
+.hero-journey{display:flex;align-items:flex-start;flex-direction:column;min-height:249px;padding:28px 31px 26px;border-radius:16px;box-shadow:0 4px 16px #1f31450b}
+.hero-journey-seller{background:#1b3447;color:white}
+.hero-journey-buyer{background:white;color:#1b3447;border:1px solid #e5e8e8}
+.hero-journey-label{font-size:10px;letter-spacing:.13em;font-weight:850;color:#ddb99b}
+.hero-journey-buyer .hero-journey-label{color:#a46642}
+.hero-journey h2{font-size:clamp(21px,2.2vw,28px);letter-spacing:-.045em;line-height:1.15;font-weight:850;margin:12px 0 9px}
+.hero-journey p{font-size:14px;line-height:1.55;margin:0 0 23px;max-width:420px;color:#c8d6df}
+.hero-journey-buyer p{color:#5e7080}
+.hero-journey-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;text-decoration:none;font-size:14px;font-weight:800;border-radius:12px;padding:11px 16px;margin-top:auto}
+.hero-seller-cta{background:#fff;color:#1b3447}
+.hero-buyer-cta{background:#1b3447;color:#fff}
+.hero-journey-cta:hover{filter:brightness(.94)}
+.hero-buyer-link{font-size:12px;font-weight:700;text-decoration:none;color:#925d3d;margin-top:10px}
+.clear-fee-note{font-size:11px;color:#7f8790;text-align:center;margin:22px auto 0;max-width:800px}
+@media(max-width:800px){.clear-market-hero{padding:38px 25px 25px}.hero-journeys{gap:12px}.hero-journey{padding:22px;min-height:275px}}
+@media(max-width:620px){.clear-market-hero{padding:35px 18px 23px}.clear-market-hero .clear-hero-intro h1{font-size:clamp(32px,9vw,43px);letter-spacing:-.055em}.clear-hero-slogan{font-size:15px}.clear-hero-explainer{font-size:14px}.hero-journeys{grid-template-columns:1fr;margin-top:27px;gap:13px}.hero-journey{min-height:0;padding:23px}.hero-journey p{margin-bottom:19px}.hero-journey h2{font-size:25px}}
