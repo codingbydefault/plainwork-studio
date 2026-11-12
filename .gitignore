@@ -5,3 +5,4 @@
 .next/
 node_modules/
 *.tsbuildinfo
+secure-product-files/

@@ -9,6 +9,8 @@ const serverSchema = publicSchema.extend({
   SUPABASE_SECRET_KEY: z.string().min(1),
   STRIPE_SECRET_KEY: z.string().startsWith("sk_"),
   STRIPE_CONNECT_WEBHOOK_SECRET: z.string().startsWith("whsec_"),
+  STRIPE_CONNECT_THIN_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
+  STRIPE_CREATOR_SUBSCRIPTION_PRICE_ID: z.string().startsWith("price_").optional(),
   NEXT_PUBLIC_APP_URL: z.string().url(),
 });
 

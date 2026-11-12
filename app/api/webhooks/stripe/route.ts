@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 async function handleEvent(event: Stripe.Event, db: Database) {
   if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
-    if (session.payment_status !== "paid") return;
+    if (session.mode === "subscription" || session.payment_status !== "paid") return;
     const orderId = session.metadata?.order_id;
     if (!orderId || !event.account || typeof session.payment_intent !== "string" ||
       session.amount_total == null || !session.currency) {
@@ -102,6 +102,24 @@ async function handleEvent(event: Stripe.Event, db: Database) {
         updated_at: new Date().toISOString(),
       })
       .eq("account_id", account.id);
+    if (error) throw error;
+  } else if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
+    const subscription = event.data.object as Stripe.Subscription;
+    const accountId = subscription.customer_account;
+    if (!accountId) return;
+    const { data: mapping } = await db.from("stripe_accounts").select("store_id").eq("account_id", accountId).single();
+    if (!mapping) return;
+    const item = subscription.items.data[0];
+    const { error } = await db.from("creator_subscriptions").upsert({
+      store_id: mapping.store_id,
+      stripe_subscription_id: subscription.id,
+      stripe_price_id: item?.price.id ?? null,
+      status: subscription.status,
+      quantity: item?.quantity ?? 1,
+      cancel_at_period_end: subscription.cancel_at_period_end,
+      current_period_end: item ? new Date(item.current_period_end * 1000).toISOString() : null,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "store_id" });
     if (error) throw error;
   }
 }
