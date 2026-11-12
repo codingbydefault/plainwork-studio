@@ -18,8 +18,8 @@ export default async function Home() {
     <section className="market-hero">
       <div className="market-copy">
         <span className="market-kicker"><span className="market-spark">✳</span> DIGITAL GUIDES, TEMPLATES & TOOLKITS</span>
-        <h1>Sell your digital product here.<br/><span>Keep 99% of your own revenue!</span></h1>
-        <p>Create and sell digital guides, templates and toolkits on Plainwork Studio. Looking to learn? Discover free books and ready-to-use paid resources from creators.</p><p className="hero-fee-note">*99% of the sale price before payment-processing fees, refunds and applicable taxes.</p>
+        <h1>Sell together.<br/><span>Earn a second income.</span></h1><p className="hero-value-line">Sell your digital products here. <strong>Keep 99% of your revenue.</strong></p>
+        <p>Share what you know by selling digital guides, templates and toolkits. Or explore free books and practical resources made by other creators.</p><p className="hero-fee-note">*99% of the sale price before payment-processing fees, refunds and applicable taxes.</p>
         <div className="market-actions"><a className="market-primary" href="/dashboard">Sell your digital product <span aria-hidden="true">↗</span></a><a className="market-link" href="#free-guides">Discover free books <span aria-hidden="true">→</span></a><a className="market-link" href="#premium-guides">Shop toolkits <span aria-hidden="true">→</span></a></div>
         <div className="market-highlights"><span>✓ Free downloads</span><span>✓ Ready-to-use templates</span><span>✓ A place for creators</span></div>
       </div>
