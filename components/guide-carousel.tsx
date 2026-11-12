@@ -1,5 +1,6 @@
 "use client";
 import { useRef } from "react";
+import Link from "next/link";
 import { LeadMagnetForm } from "@/components/lead-magnet-form";
 import { CheckoutButton } from "@/components/checkout-button";
 import type { CatalogPair } from "@/lib/catalog";
@@ -43,13 +44,15 @@ export function GuideCarousel({ items, kind, published }: Props) {
         const guide = free ? item.free : item.paid;
         const productId = published[item.key];
         const photo = photos[item.key];
+        const url = `/guides/${item.key}/${kind}`;
         return <article className="book-card" key={item.key}>
-          <div className="photo-cover" style={{ backgroundImage: `linear-gradient(180deg, rgba(10,25,40,.06) 0%,rgba(10,25,40,.25) 45%,rgba(10,25,40,.92) 100%),url("https://images.unsplash.com/${photo}?auto=format&fit=crop&w=620&q=80")` }}>
+          <Link href={url} className="book-cover-link" aria-label={`Details about ${guide.title}`}><div className="photo-cover" style={{ backgroundImage: `linear-gradient(180deg, rgba(10,25,40,.06) 0%,rgba(10,25,40,.25) 45%,rgba(10,25,40,.92) 100%),url("https://images.unsplash.com/${photo}?auto=format&fit=crop&w=620&q=80")` }}>
             <span className="photo-cover-spine" aria-hidden="true"></span>
             <div className="cover-top"><span className="cover-logo">PLAINWORK <strong>STUDIO</strong></span><span className="cover-tag">{free ? "FREE GUIDE" : "FULL TOOLKIT"}</span></div>
             <div className="cover-bottom"><span className="cover-edition">VOL. {String(index+1).padStart(2,"0")} · {item.category}</span><h3>{guide.title}</h3><span className="cover-footer">{free ? "A QUICK WIN FOR YOUR BUSINESS" : "REAL TOOLS. REAL PROGRESS."}</span></div>
-          </div>
-          <div className="book-meta"><p className="book-category">{item.category}</p><h3>{guide.title}</h3><p className="book-summary">{free ? item.free.hook : item.paid.benefits}</p>
+          </div></Link>
+          <div className="book-meta"><p className="book-category">{item.category}</p><h3><Link className="book-title-link" href={url}>{guide.title}</Link></h3><p className="book-summary">{free ? item.free.hook : item.paid.benefits}</p>
+            <Link href={url} className="book-details-link">See what’s inside →</Link>
             {free ? <LeadMagnetForm guideKey={item.key}/> : <>
               <p className="book-price">€{(item.paid.priceMinor/100).toFixed(2)}</p>
               {productId ? <CheckoutButton productId={productId}/> : <p className="book-unavailable">Coming soon · secure checkout pending</p>}
