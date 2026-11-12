@@ -14,18 +14,22 @@ export type LaunchGuide = {
   priceMinor: number | null;
   status: "asset_pending";
   downloadFilename: string | null;
+  deliveryAssetFilename: string;
+  assetPackageReceived: boolean;
 };
 export const launchGuides: LaunchGuide[] = [
   {
     "slug": "cleaning-quotes-micro-guide",
     "series": "cleaning-quotes",
     "kind": "lead_magnet",
-    "title": "The 10-Minute Cleaning Quote Audit",
+    "title": "Quote a Recurring Cleaning Job in 20 Minutes",
     "description": "Check the six common gaps in a cleaning quotation before sending it.",
     "category": "Cleaning & services",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "01_cleaning-quotes_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "cleaning-quotes-full-guide",
@@ -36,18 +40,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Cleaning & services",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "01_cleaning-quotes_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "mobile-detailing-micro-guide",
     "series": "mobile-detailing",
     "kind": "lead_magnet",
-    "title": "5 Mobile Detailing Pricing Mistakes to Avoid",
+    "title": "Price Your Next Mobile Detailing Job in 15 Minutes",
     "description": "Use a quick checklist to find hidden mobile detailing costs.",
     "category": "Automotive",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "02_mobile-detailing_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "mobile-detailing-full-guide",
@@ -58,18 +66,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Automotive",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "02_mobile-detailing_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "installer-quotes-micro-guide",
     "series": "installer-quotes",
     "kind": "lead_magnet",
-    "title": "The Installer Quotation Checklist",
+    "title": "Stop Underquoting Installation Jobs in 20 Minutes",
     "description": "Review the scope and exclusions in your next installation quote.",
     "category": "Trades",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "03_installer-quotes_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "installer-quotes-full-guide",
@@ -80,18 +92,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Trades",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "03_installer-quotes_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "event-rentals-micro-guide",
     "series": "event-rentals",
     "kind": "lead_magnet",
-    "title": "The Event Rental Handover Checklist",
+    "title": "Prevent Double Bookings in Your Rental Business Today",
     "description": "Prevent common booking and return handover mistakes.",
     "category": "Events",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "04_event-rentals_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "event-rentals-full-guide",
@@ -102,18 +118,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Events",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "04_event-rentals_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "airbnb-turnovers-micro-guide",
     "series": "airbnb-turnovers",
     "kind": "lead_magnet",
-    "title": "The 15-Minute Turnover Readiness Checklist",
+    "title": "Build a Guest-Ready Cleaning Checklist in 15 Minutes",
     "description": "Spot missed tasks before the next guest checks in.",
     "category": "Hospitality",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "05_airbnb-turnovers_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "airbnb-turnovers-full-guide",
@@ -124,18 +144,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Hospitality",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "05_airbnb-turnovers_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "cake-pricing-micro-guide",
     "series": "cake-pricing",
     "kind": "lead_magnet",
-    "title": "The Custom Cake Costing Mini-Worksheet",
+    "title": "Price a Custom Cake Without Guesswork in 15 Minutes",
     "description": "List the costs that are easy to overlook in a custom cake quote.",
     "category": "Food businesses",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "06_cake-pricing_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "cake-pricing-full-guide",
@@ -146,18 +170,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Food businesses",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "06_cake-pricing_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "dog-grooming-micro-guide",
     "series": "dog-grooming",
     "kind": "lead_magnet",
-    "title": "The Mobile Groomer Route & Cost Checklist",
+    "title": "Cost a Mobile Grooming Appointment in 15 Minutes",
     "description": "Assess route efficiency and appointment buffers.",
     "category": "Pet services",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "07_dog-grooming_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "dog-grooming-full-guide",
@@ -168,18 +196,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Pet services",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "07_dog-grooming_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "wedding-photo-micro-guide",
     "series": "wedding-photo",
     "kind": "lead_magnet",
-    "title": "The Wedding Photography Package Checklist",
+    "title": "Price Your First Wedding Photo Package in 20 Minutes",
     "description": "Check what every wedding photography package should specify.",
     "category": "Photography",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "08_wedding-photo_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "wedding-photo-full-guide",
@@ -190,18 +222,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Photography",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "08_wedding-photo_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "food-truck-micro-guide",
     "series": "food-truck",
     "kind": "lead_magnet",
-    "title": "The Food Truck Break-Even Quick Check",
+    "title": "Find Your Food Truck Break-Even Point in 10 Minutes",
     "description": "Calculate the inputs needed for a basic daily break-even estimate.",
     "category": "Food businesses",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "09_food-truck_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "food-truck-full-guide",
@@ -212,18 +248,22 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Food businesses",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "09_food-truck_paid_bundle.zip",
+    "assetPackageReceived": true
   },
   {
     "slug": "web-maintenance-micro-guide",
     "series": "web-maintenance",
     "kind": "lead_magnet",
-    "title": "The Website Care Plan Scope Checklist",
+    "title": "Price a Website Care Plan in 20 Minutes",
     "description": "Clarify inclusions and exclusions before selling recurring website maintenance.",
     "category": "Web & software",
     "priceMinor": 0,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "10_web-maintenance_micro_guide.pdf",
+    "assetPackageReceived": true
   },
   {
     "slug": "web-maintenance-full-guide",
@@ -234,6 +274,8 @@ export const launchGuides: LaunchGuide[] = [
     "category": "Web & software",
     "priceMinor": null,
     "status": "asset_pending",
-    "downloadFilename": null
+    "downloadFilename": null,
+    "deliveryAssetFilename": "10_web-maintenance_paid_bundle.zip",
+    "assetPackageReceived": true
   }
 ];
