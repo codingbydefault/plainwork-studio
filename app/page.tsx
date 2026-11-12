@@ -18,7 +18,7 @@ export default async function Home() {
     <section className="market-hero">
       <div className="market-copy">
         <span className="market-kicker"><span className="market-spark">✳</span> DIGITAL GUIDES, TEMPLATES & TOOLKITS</span>
-        <h1>Sell your digital products here.<br/><span>Keep 99% of your revenue.</span></h1><p className="hero-slogan">Sell together. Earn a second income.</p>
+        <h1>Sell your digital products here.<br/><span>Keep 99% of your revenue.</span></h1><p className="hero-slogan">Sell together and earn a second income.</p>
         <p>Share what you know by selling digital guides, templates and toolkits. Or explore free books and practical resources made by other creators.</p><p className="hero-fee-note">*99% of the sale price before payment-processing fees, refunds and applicable taxes.</p>
         <div className="market-actions"><a className="market-primary" href="/dashboard">Sell your digital product <span aria-hidden="true">↗</span></a><a className="market-link" href="#free-guides">Discover free books <span aria-hidden="true">→</span></a><a className="market-link" href="#premium-guides">Shop toolkits <span aria-hidden="true">→</span></a></div>
         <div className="market-highlights"><span>✓ Free downloads</span><span>✓ Ready-to-use templates</span><span>✓ A place for creators</span></div>
