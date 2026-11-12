@@ -27,7 +27,7 @@ export default async function Home() {
           <span className="hero-journey-label">I'M A CREATOR</span>
           <h2>Turn what you know into income.</h2>
           <p>List your guides, e-books, templates and toolkits. Keep 99% of the sale price before other fees and costs.</p>
-          <a href="/dashboard" className="hero-journey-cta hero-seller-cta">Start selling <span aria-hidden="true">↗</span></a>
+          <a href="/dashboard" className="hero-journey-cta hero-seller-cta">Turn your knowledge, into cash! <span aria-hidden="true">↗</span></a>
         </div>
         <div className="hero-journey hero-journey-buyer">
           <span className="hero-journey-label">I'M HERE TO EXPLORE</span>
