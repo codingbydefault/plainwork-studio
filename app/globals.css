@@ -126,3 +126,26 @@ body{background:#FFFFFF;color:#172B32}
 .button.secondary{border-color:#BBD5CD;color:#087F76;background:#FFFFFF}
 .guide-controls button:hover{background:#172B32;color:#FFFFFF}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #087F76;outline-offset:3px}
+
+
+/* Header account and shop actions */
+.topbar{gap:22px}
+.nav{margin-left:auto;gap:22px;align-items:center}
+.header-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.header-actions a{text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap}
+.header-login{padding:11px 12px;color:#172B32}
+.header-login:hover{color:#087F76}
+.header-shop{background:#087F76;color:white!important;border-radius:10px;padding:11px 17px;display:inline-flex;align-items:center;gap:11px}
+.header-shop:hover{background:#06665F}
+.account-shell{display:flex;justify-content:center;padding:64px 0 90px;min-height:65vh}
+.account-card{width:min(100%,490px);padding:38px;border:1px solid #DFE8E4;border-radius:20px;background:#FFFFFF;box-shadow:0 12px 42px #172B3210}
+.account-card h1{font-size:clamp(34px,4.2vw,47px);letter-spacing:-.06em;line-height:1.08;margin:12px 0}
+.account-card>.muted{margin-bottom:25px}
+.account-card .stack{gap:17px}
+.account-card label{font-size:13px;font-weight:760;gap:7px}
+.account-card input{font:inherit;font-weight:400}
+.account-submit{justify-content:center;text-align:center;padding:13px 18px}
+.account-switch{font-size:13px;color:#56696C;text-align:center;margin:25px 0 0}
+.account-switch .text-button{font-weight:800;color:#087F76;text-decoration:none}
+@media(max-width:950px){.topbar{flex-wrap:wrap;padding:15px 0;min-height:70px;height:auto;gap:12px}.nav{order:3;flex:1 0 100%;justify-content:flex-start;margin:0;padding:6px 0 0;gap:22px}.header-actions{margin-left:auto}}
+@media(max-width:620px){.brand{font-size:18px}.header-actions{gap:4px}.header-actions a{font-size:12px}.header-login{padding:8px}.header-shop{padding:9px 11px}.nav{justify-content:space-between;gap:8px;font-size:12px}.account-shell{padding:25px 0 55px}.account-card{padding:25px 20px;border-radius:16px}}
