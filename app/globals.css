@@ -50,3 +50,20 @@ input,select,textarea{background:#fff;color:#15283b;border-color:#d7e0e7}
 @media(max-width:620px){.seller-spotlight{padding:26px;margin-top:48px}.seller-copy h2{font-size:34px}.market-actions{gap:13px}.market-link{font-size:13px}}
 
 .hero-slogan{font-size:18px!important;font-weight:750;color:#b06b46!important;margin:0 0 16px!important;letter-spacing:.015em}.market-copy h1{font-size:clamp(42px,4.7vw,66px)}
+
+
+/* Book detail pages and clickable covers */
+.book-cover-link{display:block;text-decoration:none}.book-cover-link:focus-visible,.book-title-link:focus-visible,.book-details-link:focus-visible{outline:3px solid #d0814e;outline-offset:3px}
+.book-title-link{text-decoration:none}.book-title-link:hover{color:#b9683b}.book-details-link{display:block;font-size:13px;font-weight:800;color:#a75e37;text-decoration:none;margin-bottom:14px}.book-cover-link:hover .photo-cover{transform:translateY(-3px)}
+.guide-detail-page{padding:25px 0 65px}.detail-breadcrumb{display:flex;align-items:center;gap:12px;color:#687b88;font-size:13px;margin:12px 0 34px;flex-wrap:wrap}.detail-breadcrumb a{color:#455e71;text-decoration:none}
+.detail-hero{display:grid;grid-template-columns:minmax(260px,.75fr) 1.25fr;gap:65px;align-items:start;margin-bottom:65px}
+.detail-photo-cover{height:520px;max-width:390px;background-size:cover;background-position:center;background-color:#23475b;color:white;border-radius:12px 23px 23px 12px;padding:26px 28px 30px 34px;box-shadow:14px 22px 37px #0d2c452e;display:flex;flex-direction:column;position:relative}
+.detail-photo-cover:before{content:"";position:absolute;left:0;top:0;bottom:0;width:12px;background:linear-gradient(90deg,#0007,#fff5,#0005)}
+.detail-cover-brand{font-size:12px;font-weight:900;letter-spacing:.09em}.detail-cover-tag{position:absolute;top:22px;right:18px;border-radius:20px;background:white;color:#213748;padding:6px 10px;font-size:10px;font-weight:850}
+.detail-cover-bottom{margin-top:auto}.detail-cover-bottom>span{text-transform:uppercase;font-size:12px;letter-spacing:.12em}.detail-cover-bottom h2{font-size:clamp(29px,3.8vw,44px);line-height:1.08;letter-spacing:-.045em;margin:12px 0 3px;text-shadow:0 2px 12px #0008}
+.detail-copy{padding-top:25px}.detail-copy h1{font-size:clamp(33px,4vw,55px);letter-spacing:-.055em;line-height:1.08;margin:17px 0 22px}.detail-lead{font-size:19px;color:#536c7c;line-height:1.6}
+.detail-points{padding:17px 0;border-top:1px solid #e7edf1;border-bottom:1px solid #e7edf1;margin:27px 0;color:#5d7383}.detail-points p{margin:12px 0}.detail-points strong{color:#20394b}.detail-action{display:grid;justify-items:start;gap:15px}.detail-action>strong{font-size:24px}.detail-action>.lead-form{width:100%;max-width:440px}
+.detail-upsell{background:#f8f3ed;border:1px solid #eee3d6;border-radius:20px;padding:33px 38px;margin-bottom:65px}.detail-upsell h2{font-size:clamp(26px,3vw,36px);line-height:1.2;letter-spacing:-.04em;margin:11px 0}.detail-upsell p{color:#607483}.detail-upsell-actions{display:flex;flex-wrap:wrap;align-items:center;gap:17px}.detail-upsell-actions>span{font-size:13px;color:#5e7080;max-width:300px}
+.detail-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.detail-related-card{text-decoration:none;display:grid;gap:11px}.detail-related-cover{height:245px;padding:20px;border-radius:13px;background-position:center;background-size:cover;color:white;display:flex;flex-direction:column;justify-content:space-between}.detail-related-cover span{font-size:11px;font-weight:800;text-transform:uppercase}.detail-related-cover strong{font-size:21px;line-height:1.13;letter-spacing:-.04em}.detail-related-link{font-size:13px;font-weight:800;color:#9d633f}
+@media(max-width:800px){.detail-hero{grid-template-columns:1fr;gap:32px}.detail-photo-cover{width:min(100%,390px);height:450px}.detail-copy{padding-top:0}.detail-related-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.detail-related-grid{grid-template-columns:1fr}.detail-related-cover{height:180px}.detail-upsell{padding:25px}.detail-hero{margin-bottom:45px}.detail-copy h1{font-size:37px}}
