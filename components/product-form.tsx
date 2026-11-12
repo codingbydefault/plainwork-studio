@@ -20,7 +20,9 @@ export function ProductForm() {
       if (!uploadResponse.ok) { setBusy(false); return setMessage(upload.error ?? "Product created, but the book could not be attached"); }
       const { error } = await createSupabaseBrowser().storage.from("product-files").uploadToSignedUrl(upload.path, upload.token, file, {contentType:file.type || "application/zip"});
       if (error) { setBusy(false); return setMessage(`Product created, but the book upload failed: ${error.message}`); }
-      setMessage("Product created and the matching paid book was attached securely.");
+      const publishResponse=await fetch(`/api/products/${result.product.id}/publish`,{method:"POST"});
+      if(!publishResponse.ok){const publish=await publishResponse.json();setBusy(false);return setMessage(publish.error??"Product created with its file, but could not be published");}
+      setMessage("Product created, secured, and published to your storefront.");
     } else setMessage("Product created as a draft. Attach its paid ZIP before publishing.");
     setBusy(false); event.currentTarget.reset();
   }
