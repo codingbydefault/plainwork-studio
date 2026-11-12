@@ -14,7 +14,11 @@ export async function POST(request: Request) {
     const { data: product, error } = await db.from("products").select("id,title,price_minor,currency,store_id,status,stores!inner(stripe_accounts!inner(account_id,charges_enabled,payouts_enabled))").eq("id",productId).single();
     if(error||!product||product.status!=="published") throw new Error("Product unavailable");
     const account = (product.stores as unknown as {stripe_accounts:{account_id:string;charges_enabled:boolean;payouts_enabled:boolean}}).stripe_accounts;
-    if(!account.charges_enabled||!account.payouts_enabled) throw new Error("Creator is not ready to accept payments");
+    // Read V2 directly before every checkout. Requirements can change after onboarding.
+    const connectedAccount = await stripeClient().v2.core.accounts.retrieve(account.account_id, { include: ["configuration.merchant", "requirements"] });
+    const cardStatus = connectedAccount.configuration?.merchant?.capabilities?.card_payments?.status;
+    const requirementStatus = connectedAccount.requirements?.summary?.minimum_deadline?.status;
+    if (cardStatus !== "active" || requirementStatus === "currently_due" || requirementStatus === "past_due") throw new Error("Creator is not ready to accept payments");
     const { data: order, error: orderError } = await db.from("orders").insert({buyer_id:user.id,store_id:product.store_id,status:"pending",currency:product.currency,total_minor:product.price_minor,platform_fee_minor:applicationFee(product.price_minor)}).select("id").single();
     if(orderError||!order) throw orderError;
     const { error: itemError } = await db.from("order_items").insert({order_id:order.id,product_id:product.id,unit_price_minor:product.price_minor,quantity:1,product_snapshot:{title:product.title}}); if(itemError) throw itemError;

@@ -1,0 +1,3 @@
+"use client";
+import { useState } from "react";
+export function SubscriptionActions(){const[busy,setBusy]=useState("");async function open(path:string){setBusy(path);const response=await fetch(path,{method:"POST"});const data=await response.json();if(response.ok)location.assign(data.url);else{alert(data.error);setBusy("")}}return <div className="row"><button className="button" disabled={!!busy} onClick={()=>open("/api/creator-subscription/checkout")}>{busy.includes("checkout")?"Opening…":"Subscribe as a creator"}</button><button className="button secondary" disabled={!!busy} onClick={()=>open("/api/creator-subscription/portal")}>Manage billing</button></div>}
