@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./lead.css";
 import Link from "next/link";
 
 export const metadata = { title: "Plainwork Studio", description: "A creator-first marketplace with a 1% platform fee." };
