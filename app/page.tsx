@@ -15,20 +15,29 @@ export default async function Home() {
   }
   const published = Object.fromEntries(products.filter(p => p.catalog_key).map(p => [p.catalog_key as string, p.id]));
   return <main className="modern-marketplace">
-    <section className="market-hero">
-      <div className="market-copy">
-        <span className="market-kicker"><span className="market-spark">✳</span> DIGITAL GUIDES, TEMPLATES & TOOLKITS</span>
-        <h1>Sell your digital products here.<br/><span>Keep 99% of your revenue.</span></h1><p className="hero-slogan">Sell together and earn a second income.</p>
-        <p>Share what you know by selling digital guides, templates and toolkits. Or explore free books and practical resources made by other creators.</p><p className="hero-fee-note">*99% of the sale price before payment-processing fees, refunds and applicable taxes.</p>
-        <div className="market-actions"><a className="market-primary" href="/dashboard">Sell your digital product <span aria-hidden="true">↗</span></a><a className="market-link" href="#free-guides">Discover free books <span aria-hidden="true">→</span></a><a className="market-link" href="#premium-guides">Shop toolkits <span aria-hidden="true">→</span></a></div>
-        <div className="market-highlights"><span>✓ Free downloads</span><span>✓ Ready-to-use templates</span><span>✓ A place for creators</span></div>
+    <section className="market-hero clear-market-hero" aria-labelledby="marketplace-heading">
+      <div className="clear-hero-intro">
+        <div className="clear-hero-kicker"><span className="clear-kicker-mark" aria-hidden="true">✳</span> THE MARKETPLACE FOR DIGITAL PRODUCTS</div>
+        <h1 id="marketplace-heading">Sell your digital products.<br/><span>Keep 99% of your revenue.</span></h1>
+        <p className="clear-hero-slogan">Sell together and earn a second income.</p>
+        <p className="clear-hero-explainer">One place to share what you create and discover useful digital products from others.</p>
       </div>
-      <div className="market-feature" aria-hidden="true">
-        <div className="market-decor decor-one"></div><div className="market-decor decor-two"></div>
-        <div className="market-feature-book book-left"><span>PLAINWORK STUDIO</span><strong>YOUR NEXT<br/>BIG IDEA.</strong><small>THE FREE STARTER GUIDE</small></div>
-        <div className="market-feature-book book-right"><span>PLAINWORK STUDIO</span><strong>MAKE<br/>IT REAL.</strong><small>THE COMPLETE TOOLKIT</small></div>
-        <span className="market-feature-star">✳</span>
+      <div className="hero-journeys" aria-label="Choose how to use Plainwork Studio">
+        <div className="hero-journey hero-journey-seller">
+          <span className="hero-journey-label">I'M A CREATOR</span>
+          <h2>Turn what you know into income.</h2>
+          <p>List your guides, e-books, templates and toolkits. Keep 99% of the sale price before other fees and costs.</p>
+          <a href="/dashboard" className="hero-journey-cta hero-seller-cta">Start selling <span aria-hidden="true">↗</span></a>
+        </div>
+        <div className="hero-journey hero-journey-buyer">
+          <span className="hero-journey-label">I'M HERE TO EXPLORE</span>
+          <h2>Find your next useful idea.</h2>
+          <p>Browse free guides and ready-to-use paid toolkits to learn a skill or grow your business.</p>
+          <a href="#free-guides" className="hero-journey-cta hero-buyer-cta">Explore digital products <span aria-hidden="true">→</span></a>
+          <a href="#premium-guides" className="hero-buyer-link">Or browse premium toolkits →</a>
+        </div>
       </div>
+      <p className="clear-fee-note">*99% refers to your share of the sale price before payment-processing fees, refunds and applicable taxes. Earnings are not guaranteed.</p>
     </section>
     <div className="market-benefits"><span>✳ Free business guides</span><span>↗ Premium digital toolkits</span><span>◎ Instant access to your purchases</span><span>✓ Sell your own digital products</span></div>
     <GuideCarousel items={catalog} kind="free" published={published}/>
