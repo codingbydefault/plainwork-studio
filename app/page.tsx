@@ -19,7 +19,7 @@ export default async function Home() {
       <div className="clear-hero-intro">
         <div className="clear-hero-kicker"><span className="clear-kicker-mark" aria-hidden="true">✳</span> THE MARKETPLACE FOR DIGITAL PRODUCTS</div>
         <h1 id="marketplace-heading">Sell your digital products.<br/><span>Keep 99% of your revenue.</span></h1>
-        <p className="clear-hero-slogan">Sell together and earn a second income.</p>
+        <p className="clear-hero-slogan">Turn your knowledge, into cash!</p>
         <p className="clear-hero-explainer">One place to share what you create and discover useful digital products from others.</p>
       </div>
       <div className="hero-journeys" aria-label="Choose how to use Plainwork Studio">
