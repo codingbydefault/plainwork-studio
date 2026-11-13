@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const features = [
-  { icon:"▦", title:"Your own storefront",desc:"Give your digital products a place to live and a link you can share." },
+  { icon:"▦", title:"Your own storefront",desc:"Give your digital products a place to live and a link you can share.",titleNl:"Je eigen shop",descNl:"Maak een plek voor je digitale producten met een deelbare link." },
   { icon:"↗", title:"Sales insights",desc:"Track published products, paid orders and your shop's progress." },
-  { icon:"⇩", title:"Digital delivery",desc:"Deliver purchased files through a private download library." },
-  { icon:"◎", title:"Stripe payments",desc:"Connect a Stripe account to take payments once your shop is approved." },
+  { icon:"⇩", title:"Digital delivery",desc:"Deliver purchased files through a private download library.",titleNl:"Digitale levering",descNl:"Lever bestanden via een afgeschermde downloadbibliotheek." },
+  { icon:"◎", title:"Stripe payments",desc:"Connect a Stripe account to take payments once your shop is approved.",titleNl:"Betalingen met Stripe",descNl:"Koppel je Stripe-account en ontvang betalingen na goedkeuring." },
 ];
 
 export function CreatorDashboardPreview({locale="nl"}:{locale?:"nl"|"en"}) {
@@ -55,7 +55,7 @@ export function CreatorDashboardPreview({locale="nl"}:{locale?:"nl"|"en"}) {
       <div className="creator-share-numbers" aria-label="Example distribution of a 100 euro sale price"><div><span>{t("Aandeel maker*","Creator share*")}</span><strong>€99</strong></div><div><span>{t("Platformkosten","Platform fee")}</span><strong>€1</strong></div><div className="creator-share-meter"><span/><span/></div><small>{t("*Vóór bijkomende kosten. Voorbeeld bij een verkoopprijs van €100.","*Before other applicable fees and costs. Illustrative €100 sale.")}</small></div>
     </section>
     <section className="creator-showcase-features"><div className="creator-showcase-section-heading"><span>{t("GEBOUWD VOOR MAKERS","BUILT FOR CREATORS")}</span><h2>{t("Alles begint bij je eigen shop.","Everything starts with a shop.")}</h2><p>{t("Jij maakt nuttige producten. Plainwork Studio helpt bij aanbieden, verkopen en leveren.","Focus on making helpful products. Plainwork Studio provides tools to list, sell and deliver them.")}</p></div>
-      <div className="creator-feature-grid">{features.map(feature=><article className="creator-feature" key={feature.title}><span aria-hidden="true" className="creator-feature-icon">{feature.icon}</span><h3>{feature.title}</h3><p>{feature.desc}</p></article>)}</div>
+      <div className="creator-feature-grid">{features.map(feature=><article className="creator-feature" key={feature.title}><span aria-hidden="true" className="creator-feature-icon">{feature.icon}</span><h3>{locale==="nl"?feature.titleNl:feature.title}</h3><p>{locale==="nl"?feature.descNl:feature.desc}</p></article>)}</div>
     </section>
     <section className="creator-stripe-section">
       <div className="creator-stripe-icon"><span aria-hidden="true">↗</span></div>
