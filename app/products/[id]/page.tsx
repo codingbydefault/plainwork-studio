@@ -1,3 +1,4 @@
+import { getLocale, getCopy } from "@/lib/i18n-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -16,6 +17,7 @@ function price(product: Product) {
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const locale=await getLocale(); const t=await getCopy();
   const { id } = await params;
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) notFound();
   const supabase = await createSupabaseServer();
@@ -38,13 +40,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     <section className="explore-detail-grid">
       <div className="explore-detail-cover"><span>PLAINWORK STUDIO</span><strong>{product.title}</strong><small>{product.category ?? "DIGITAL PRODUCT"}</small></div>
       <div className="explore-detail-info"><p className="guide-eyebrow">{product.category ?? "DIGITAL DOWNLOAD"}</p><h1>{product.title}</h1>
-        <p>Created by <Link href={`/store/${store.slug}`}>{store.name}</Link></p>
+        <p>{t.sellerBy} <Link href={`/store/${store.slug}`}>{store.name}</Link></p>
         <p className="explore-detail-description">{product.description || "Practical digital content from an independent creator."}</p>
-        <p className="explore-detail-delivery">Digital purchase · available in your library after confirmed payment</p>
-        <div className="explore-detail-buy"><strong>{price(product)}</strong><CheckoutButton productId={product.id}/></div>
+        <p className="explore-detail-delivery">{t.delivery}</p>
+        <div className="explore-detail-buy"><strong>{price(product)}</strong><CheckoutButton productId={product.id} locale={locale}/></div>
       </div>
     </section>
-    <section className="explore-related"><div className="guide-heading"><div><p className="guide-eyebrow">DISCOVER MORE</p><h2>More products to explore</h2></div><Link href="/explore">Browse all →</Link></div>
+    <section className="explore-related"><div className="guide-heading"><div><p className="guide-eyebrow">DISCOVER MORE</p><h2>{t.related}</h2></div><Link href="/explore">{t.relatedAll} →</Link></div>
       {suggestions.length ? <div className="explore-grid">{suggestions.map(item => <Link href={`/products/${item.id}`} className="explore-related-tile" key={item.id}><span>{item.category ?? "Digital product"}</span><strong>{item.title}</strong><small>{price(item)}</small></Link>)}</div> : <p className="muted">More published products are coming soon.</p>}
     </section>
   </main>;
