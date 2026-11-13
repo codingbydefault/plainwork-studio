@@ -234,3 +234,23 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #087F
 .checkout-language>label{font-size:12px;font-weight:800;color:#172B32}
 .checkout-language select{background:#fff;color:#172B32;border:1px solid #D6E3DE}
 @media(max-width:620px){.header-actions{gap:5px}.pw-language select{width:58px;min-width:58px;height:33px;padding:5px}.header-shop{padding:8px}.header-login{padding:6px}}
+
+
+/* Desktop width: previously .page was capped at 1120px, leaving excessive side gutters.
+   Widen the app shell while keeping comfortable spacing and readable text lines. */
+@media (min-width: 1024px) {
+  .page {
+    width: calc(100% - clamp(48px, 5vw, 112px));
+    max-width: 1800px;
+    margin-inline: auto;
+  }
+  .clear-market-hero { padding-inline: clamp(42px, 4vw, 80px); }
+  .hero-journeys { max-width: 1360px; }
+  .clear-hero-intro { max-width: 1100px; }
+  .clear-market-hero .clear-hero-intro h1 { max-width: 1040px; }
+  .guide-rail { scroll-padding-inline: 2px; }
+}
+@media (min-width: 1600px) {
+  .explore-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .creator-feature-grid, .creator-setup-steps { column-gap: 22px; }
+}
