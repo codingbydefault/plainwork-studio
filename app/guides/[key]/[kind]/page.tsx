@@ -1,7 +1,11 @@
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
+import {displayPrice} from "@/lib/currency";
+import { getLocale, getCopy } from "@/lib/i18n-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { catalog, catalogByKey } from "@/lib/catalog";
+import {localCatalog} from "@/lib/catalog-i18n";
 import { LeadMagnetForm } from "@/components/lead-magnet-form";
 import { CheckoutButton } from "@/components/checkout-button";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -26,11 +30,13 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 }
 
 export default async function GuideDetailPage({ params }: { params: Promise<Params> }) {
+  const locale=await getLocale(); const t=await getCopy();const [selectedCurrency,fx]=await Promise.all([getDisplayCurrency(),getFxQuote()]);
   const { key, kind } = await params;
   const item = catalogByKey.get(key);
   if (!item || (kind !== "free" && kind !== "paid")) notFound();
   const free = kind === "free";
-  const guide = free ? item.free : item.paid;
+  const localized=localCatalog(item,locale);
+  const guide=free?localized.free:localized.paid;
   let productId: string | null = null;
 
   if (!free) {
@@ -48,32 +54,32 @@ export default async function GuideDetailPage({ params }: { params: Promise<Para
     .slice(0, 3);
 
   return <main className="guide-detail-page">
-    <nav className="detail-breadcrumb" aria-label="Breadcrumb"><Link href="/">Marketplace</Link><span>/</span><Link href={free ? "/#free-guides" : "/#premium-guides"}>{free ? "Free guides" : "Paid toolkits"}</Link><span>/</span><span>{item.category}</span></nav>
+    <nav className="detail-breadcrumb" aria-label="Breadcrumb"><Link href="/">{locale==="nl"?"Marktplaats":"Marketplace"}</Link><span>/</span><Link href={free ? "/#free-guides" : "/#premium-guides"}>{locale==="nl"?(free?"Gratis gidsen":"Betaalde cursussen"):(free?"Free guides":"Paid toolkits")}</Link><span>/</span><span>{localized.category}</span></nav>
     <section className="detail-hero">
       <div className="detail-photo-cover" style={coverStyle(key)}>
         <span className="detail-cover-brand">PLAINWORK STUDIO</span>
-        <span className="detail-cover-tag">{free ? "FREE GUIDE" : "FULL TOOLKIT"}</span>
+        <span className="detail-cover-tag">{locale==="nl"?(free?"GRATIS GIDS":"VOLLEDIGE CURSUS"):(free?"FREE GUIDE":"FULL TOOLKIT")}</span>
         <div className="detail-cover-bottom"><span>{item.category}</span><h2>{guide.title}</h2></div>
       </div>
       <div className="detail-copy">
-        <span className="guide-eyebrow">{free ? "FREE DIGITAL GUIDE" : "PREMIUM DIGITAL TOOLKIT"} · {item.category}</span>
+        <span className="guide-eyebrow">{locale==="nl"?(free?"GRATIS DIGITALE GIDS":"UITGEBREIDE DIGITALE CURSUS"):(free?"FREE DIGITAL GUIDE":"PREMIUM DIGITAL TOOLKIT")} · {item.category}</span>
         <h1>{guide.title}</h1>
-        <p className="detail-lead">{free ? item.free.hook : item.paid.benefits}</p>
+        <p className="detail-lead">{free ? localized.free.hook : localized.paid.benefits}</p>
         <div className="detail-points">
-          <p><strong>Practical focus.</strong> Real-world advice for your business.</p>
-          <p><strong>Digital product.</strong> No shipping or physical delivery required.</p>
-          <p><strong>Explore more.</strong> Find matching toolkits and related guides below.</p>
+          <p><strong>{locale==="nl"?"Praktisch gericht.":"Practical focus."}</strong> {locale==="nl"?"Bruikbare tips voor je onderneming.":"Real-world advice for your business."}</p>
+          <p><strong>{locale==="nl"?"Digitaal product.":"Digital product."}</strong> {locale==="nl"?"Geen verzending of fysieke levering nodig.":"No shipping or physical delivery required."}</p>
+          <p><strong>{locale==="nl"?"Ontdek meer.":"Explore more."}</strong> {locale==="nl"?"Bekijk hieronder verwante cursussen en gidsen.":"Find matching toolkits and related guides below."}</p>
         </div>
-        {free ? <div className="detail-action"><strong>Free download</strong><LeadMagnetForm guideKey={item.key}/></div> :
-          <div className="detail-action"><strong>€{(item.paid.priceMinor / 100).toFixed(2)}</strong>
-            {productId ? <CheckoutButton productId={productId}/> : <p className="book-unavailable">Checkout is not available yet. This toolkit has not been published.</p>}
+        {free ? <div className="detail-action"><strong>{locale==="nl"?"Gratis downloaden":"Free download"}</strong><LeadMagnetForm guideKey={item.key}/></div> :
+          <div className="detail-action"><strong>{displayPrice(item.paid.priceMinor,"eur",selectedCurrency,fx,locale).value}</strong>
+            {productId ? <><CheckoutButton productId={productId} locale={locale}/><small className="currency-price-note">{locale==="nl"?"Uiteindelijk betaal je in de valuta die Stripe bij het afrekenen aangeeft.":"The checkout currency will be shown in Stripe."}</small></> : <p className="book-unavailable">{locale==="nl"?"Deze cursus is nog niet gepubliceerd. Betalen is nog niet mogelijk.":"Checkout is not available yet. This toolkit has not been published."}</p>}
           </div>}
       </div>
     </section>
-    {free ? <section className="detail-upsell"><span className="seller-label">YOUR NEXT STEP</span><h2>Want more than the free guide?</h2><p>Explore the complete paid toolkit for this topic, with more detailed resources and editable tools.</p><div className="detail-upsell-actions"><Link href={`/guides/${key}/paid`} className="market-primary">Explore the full toolkit ↗</Link><span>{item.paid.title}</span></div></section>
-      : <section className="detail-upsell"><span className="seller-label">TRY THE TOPIC FIRST</span><h2>Start with the free version.</h2><p>See the matching free mini-guide before deciding whether the toolkit is right for you.</p><Link href={`/guides/${key}/free`} className="market-primary">View free guide ↗</Link></section>}
-    <section className="detail-related"><div className="guide-heading"><div><span className="guide-eyebrow">YOU MIGHT ALSO LIKE</span><h2>More guides worth exploring.</h2></div><Link href="/" className="market-link">Browse all books →</Link></div>
-      <div className="detail-related-grid">{related.map(rec => <Link href={`/guides/${rec.key}/${free ? "free" : "paid"}`} className="detail-related-card" key={rec.key}><div className="detail-related-cover" style={coverStyle(rec.key)}><span>{rec.category}</span><strong>{free ? rec.free.title : rec.paid.title}</strong></div><span className="detail-related-link">View book details →</span></Link>)}</div>
+    {free ? <section className="detail-upsell"><span className="seller-label">{locale==="nl"?"JE VOLGENDE STAP":"YOUR NEXT STEP"}</span><h2>{locale==="nl"?"Wil je meer dan de gratis gids?":"Want more than the free guide?"}</h2><p>{locale==="nl"?"Bekijk de volledige betaalde cursus met extra uitleg en bewerkbare hulpmiddelen.":"Explore the complete paid toolkit for this topic, with more detailed resources and editable tools."}</p><div className="detail-upsell-actions"><Link href={`/guides/${key}/paid`} className="market-primary">{locale==="nl"?"Bekijk de volledige cursus ↗":"Explore the full toolkit ↗"}</Link><span>{localized.paid.title}</span></div></section>
+      : <section className="detail-upsell"><span className="seller-label">{locale==="nl"?"BEGIN GRATIS":"TRY THE TOPIC FIRST"}</span><h2>{locale==="nl"?"Begin met de gratis versie.":"Start with the free version."}</h2><p>{locale==="nl"?"Bekijk eerst de gratis minigids voordat je een volledige cursus koopt.":"See the matching free mini-guide before deciding whether the toolkit is right for you."}</p><Link href={`/guides/${key}/free`} className="market-primary">{locale==="nl"?"Bekijk de gratis gids ↗":"View free guide ↗"}</Link></section>}
+    <section className="detail-related"><div className="guide-heading"><div><span className="guide-eyebrow">{locale==="nl"?"MISSCHIEN OOK INTERESSANT":"YOU MIGHT ALSO LIKE"}</span><h2>{locale==="nl"?"Meer nuttige gidsen.":"More guides worth exploring."}</h2></div><Link href="/" className="market-link">{locale==="nl"?"Bekijk alle boeken →":"Browse all books →"}</Link></div>
+      <div className="detail-related-grid">{related.map(rec => <Link href={`/guides/${rec.key}/${free ? "free" : "paid"}`} className="detail-related-card" key={rec.key}><div className="detail-related-cover" style={coverStyle(rec.key)}><span>{rec.category}</span><strong>{free ? localCatalog(rec,locale).free.title : localCatalog(rec,locale).paid.title}</strong></div><span className="detail-related-link">{locale==="nl"?"Bekijk de details →":"View book details →"}</span></Link>)}</div>
     </section>
   </main>;
 }

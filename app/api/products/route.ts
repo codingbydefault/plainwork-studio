@@ -7,6 +7,7 @@ import { stripeClient } from "@/lib/stripe";
 import { catalogByKey } from "@/lib/catalog";
 
 const schema = z.object({
+  storeId: z.string().uuid(),
   name: z.string().min(2).max(120), description: z.string().max(1000),
   priceMinor: z.number().int().min(50), currency: z.enum(["eur", "usd", "gbp"]),
   catalogKey: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
       priceMinor: catalogItem.paid.priceMinor,
       currency: "eur" as const,
     } : input;
-    const { data: store } = await db.from("stores").select("id,stripe_accounts(account_id)").eq("owner_id", user.id).single();
+    const { data: store } = await db.from("stores").select("id,stripe_accounts(account_id)").eq("owner_id", user.id).eq("id", input.storeId).single();
     const accountId = (store?.stripe_accounts as unknown as { account_id: string } | null)?.account_id;
     if (!store || !accountId) throw new Error("Complete Stripe Connect setup first");
 
