@@ -30,15 +30,15 @@ export function GuideCarousel({ items, kind, published, locale="nl" }: Props) {
     const card = el.querySelector<HTMLElement>(".book-card");
     el.scrollBy({ left: direction * ((card?.offsetWidth ?? 270) + 20) * 2, behavior: "smooth" });
   }
-  return <section id={free ? "free-guides" : "premium-guides"} className="guide-section" aria-label={free ? "Free business guides" : "Premium business guides"}>
+  return <section id={free ? "free-guides" : "premium-guides"} className="guide-section" aria-label={locale==="nl"?(free?"Gratis gidsen":"Betaalde cursussen"):(free?"Free business guides":"Premium business guides")}>
     <div className="guide-heading">
-      <div><p className="guide-eyebrow">{free ? "START HERE — IT'S FREE" : "GO FURTHER"}</p>
+      <div><p className="guide-eyebrow">{locale==="nl"?(free?"BEGIN GRATIS":"VERDIEP JE KENNIS"):(free?"START HERE — IT'S FREE":"GO FURTHER")}</p>
         <h2>{locale==="nl"?(free?"Begin met een gratis minicursus.":"Zet je kennis om in resultaat."):(free?"Your next idea starts here.":"Build something bigger.")}</h2>
         <p className="guide-subtitle">{locale==="nl"?(free?"Praktische minigidsen waarmee je vandaag begint.":"Uitgebreide cursussen met werkboeken en heldere stappen."):(free?"Practical mini-guides you can put to work today.":"Complete toolkits with workbooks, templates and clear next steps.")}</p>
       </div>
       <div className="guide-controls">
-        <button type="button" aria-label={free ? "Previous free books" : "Previous paid books"} onClick={()=>scroll(-1)}>‹</button>
-        <button type="button" aria-label={free ? "Next free books" : "Next paid books"} onClick={()=>scroll(1)}>›</button>
+        <button type="button" aria-label={locale==="nl"?"Vorige boeken":(free?"Previous free books":"Previous paid books")} onClick={()=>scroll(-1)}>‹</button>
+        <button type="button" aria-label={locale==="nl"?"Volgende boeken":(free?"Next free books":"Next paid books")} onClick={()=>scroll(1)}>›</button>
       </div>
     </div>
     <div className="guide-rail" ref={rail}>
@@ -52,7 +52,7 @@ export function GuideCarousel({ items, kind, published, locale="nl" }: Props) {
           <Link href={url} className="book-cover-link" aria-label={`Details about ${guide.title}`}><div className="photo-cover" style={{ backgroundImage: `linear-gradient(180deg, rgba(10,25,40,.06) 0%,rgba(10,25,40,.25) 45%,rgba(10,25,40,.92) 100%),url("https://images.unsplash.com/${photo}?auto=format&fit=crop&w=620&q=80")` }}>
             <span className="photo-cover-spine" aria-hidden="true"></span>
             <div className="cover-top"><span className="cover-logo">PLAINWORK <strong>STUDIO</strong></span><span className="cover-tag">{locale==="nl"?(free?"GRATIS GIDS":"UITGEBREIDE CURSUS"):(free?"FREE GUIDE":"FULL TOOLKIT")}</span></div>
-            <div className="cover-bottom"><span className="cover-edition">VOL. {String(index+1).padStart(2,"0")} · {localized.category}</span><h3>{guide.title}</h3><span className="cover-footer">{free ? "A QUICK WIN FOR YOUR BUSINESS" : "REAL TOOLS. REAL PROGRESS."}</span></div>
+            <div className="cover-bottom"><span className="cover-edition">VOL. {String(index+1).padStart(2,"0")} · {localized.category}</span><h3>{guide.title}</h3><span className="cover-footer">{locale==="nl"?(free?"EEN NUTTIGE EERSTE STAP":"PRAKTISCHE KENNIS. ECHTE VOORUITGANG."):(free?"A QUICK WIN FOR YOUR BUSINESS":"REAL TOOLS. REAL PROGRESS.")}</span></div>
           </div></Link>
           <div className="book-meta"><p className="book-category">{localized.category}</p><h3><Link className="book-title-link" href={url}>{guide.title}</Link></h3><p className="book-summary">{free ? localized.free.hook : localized.paid.benefits}</p>
             <Link href={url} className="book-details-link">{locale==="nl"?"Bekijk de inhoud →":"See what’s inside →"}</Link>
