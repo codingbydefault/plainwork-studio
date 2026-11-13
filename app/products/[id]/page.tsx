@@ -1,3 +1,5 @@
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
+import {displayPrice} from "@/lib/currency";
 import { getLocale, getCopy } from "@/lib/i18n-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,7 +20,7 @@ function price(product: Product) {
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const locale=await getLocale(); const t=await getCopy();
+  const locale=await getLocale(); const t=await getCopy();const [selectedCurrency,fx]=await Promise.all([getDisplayCurrency(),getFxQuote()]);
   const { id } = await params;
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) notFound();
   const supabase = await createSupabaseServer();
@@ -45,11 +47,11 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <p>{t.sellerBy} <Link href={`/store/${store.slug}`}>{store.name}</Link></p>
         <p className="explore-detail-description">{tr.description || (locale==="nl"?"Praktische digitale inhoud van een onafhankelijke maker.":"Practical digital content from an independent creator.")}</p>
         <p className="explore-detail-delivery">{t.delivery}</p>
-        <div className="explore-detail-buy"><strong>{price(product)}</strong><CheckoutButton productId={product.id} locale={locale}/></div>
+        <div className="explore-detail-buy"><strong>{displayPrice(product.price_minor,product.currency,selectedCurrency,fx,locale).value}</strong><CheckoutButton productId={product.id} locale={locale}/><small className="currency-price-note">{locale==="nl"?`Betaling wordt verwerkt in ${product.currency.toUpperCase()}.`:`Payment is processed in ${product.currency.toUpperCase()}.`}</small></div>
       </div>
     </section>
     <section className="explore-related"><div className="guide-heading"><div><p className="guide-eyebrow">DISCOVER MORE</p><h2>{t.related}</h2></div><Link href="/explore">{t.relatedAll} →</Link></div>
-      {suggestions.length ? <div className="explore-grid">{suggestions.map(item => <Link href={`/products/${item.id}`} className="explore-related-tile" key={item.id}><span>{item.category ?? "Digital product"}</span><strong>{item.title}</strong><small>{price(item)}</small></Link>)}</div> : <p className="muted">{locale==="nl"?"Binnenkort verschijnen er meer producten.":"More published products are coming soon."}</p>}
+      {suggestions.length ? <div className="explore-grid">{suggestions.map(item => <Link href={`/products/${item.id}`} className="explore-related-tile" key={item.id}><span>{item.category ?? "Digital product"}</span><strong>{item.title}</strong><small>{displayPrice(item.price_minor,item.currency,selectedCurrency,fx,locale).value}</small></Link>)}</div> : <p className="muted">{locale==="nl"?"Binnenkort verschijnen er meer producten.":"More published products are coming soon."}</p>}
     </section>
   </main>;
 }
