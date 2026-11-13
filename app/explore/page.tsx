@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import {getLocale} from "@/lib/i18n-server";
+import {translatedProduct} from "@/lib/ai-courses-i18n";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 18;
@@ -8,6 +9,7 @@ const PAGE_SIZE = 18;
 type ExploreProduct = {
   id: string;
   title: string;
+  slug: string;
   description: string | null;
   price_minor: number;
   currency: string;
@@ -40,7 +42,7 @@ export default async function Explore({
 
   // Only public, published products of active storefronts can enter discovery.
   let builder = supabase.from("products")
-    .select("id,title,description,price_minor,currency,category,created_at,stores!inner(name,slug,status)", { count: "exact" })
+    .select("id,title,slug,description,price_minor,currency,category,created_at,stores!inner(name,slug,status)", { count: "exact" })
     .eq("status", "published")
     .eq("stores.status", "active");
   if (query) builder = builder.ilike("title", `%${query.replace(/[%_\\]/g, "")}%`);
@@ -81,16 +83,17 @@ export default async function Explore({
       : products.length === 0 ? <div className="explore-empty"><h2>{nl?"Nog geen producten gevonden.":"No matching products yet."}</h2><p>{nl?"Probeer een andere zoekopdracht of bekijk de gratis gidsen.":"Try a broader search, or browse our free guides while creators build their shops."}</p><Link href="/#free-guides" className="button">{nl?"Bekijk gratis gidsen":"Explore free guides"}</Link></div>
       : <div className="explore-grid">{products.map(product => {
         const store = storeInfo(product.stores);
+        const translated=translatedProduct(product.slug,product.title,product.description,nl?"nl":"en");
         return <article className="explore-product" key={product.id}>
           <Link className="explore-product-visual" href={`/products/${product.id}`}>
             <span>{product.category || (nl?"Digitale producten":"Digital products")}</span>
-            <strong>{product.title}</strong>
+            <strong>{translated.title}</strong>
             <small>PLAINWORK STUDIO · {nl?"DIGITALE DOWNLOAD":"DIGITAL DOWNLOAD"}</small>
           </Link>
           <div className="explore-product-content">
             <p className="explore-seller">{nl?"Van":"By"} <Link href={`/store/${store?.slug}`}>{store?.name ?? (nl?"Maker":"Creator")}</Link></p>
-            <h2><Link href={`/products/${product.id}`}>{product.title}</Link></h2>
-            <p className="explore-description">{product.description || (nl?"Een praktisch digitaal product van een zelfstandige maker.":"A practical digital product from an independent creator.")}</p>
+            <h2><Link href={`/products/${product.id}`}>{translated.title}</Link></h2>
+            <p className="explore-description">{translated.description || (nl?"Een praktisch digitaal product van een zelfstandige maker.":"A practical digital product from an independent creator.")}</p>
             <div className="explore-product-bottom"><strong>{formatMoney(product.price_minor, product.currency)}</strong><Link href={`/products/${product.id}`}>{nl?"Meer informatie →":"See details →"}</Link></div>
           </div>
         </article>;
