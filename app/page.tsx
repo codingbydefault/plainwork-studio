@@ -33,7 +33,7 @@ export default async function Home() {
           <span className="hero-journey-label">I'M HERE TO EXPLORE</span>
           <h2>Find your next useful idea.</h2>
           <p>Browse free guides and ready-to-use paid toolkits to learn a skill or grow your business.</p>
-          <a href="#free-guides" className="hero-journey-cta hero-buyer-cta">Explore digital products <span aria-hidden="true">→</span></a>
+          <a href="/explore" className="hero-journey-cta hero-buyer-cta">Explore digital products <span aria-hidden="true">→</span></a>
           <a href="#premium-guides" className="hero-buyer-link">Or browse premium toolkits →</a>
         </div>
       </div>
