@@ -1,6 +1,6 @@
 import { MarketplaceCarousel } from "@/components/marketplace-carousel";
 import {getMarketplaceBooks} from "@/lib/marketplace-books-server";
-import {getDisplayCurrency,getFxQuote} from "@/lib/currency";
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
 import { getCopy, getLocale } from "@/lib/i18n-server";
 
 export const dynamic = "force-dynamic";
