@@ -5,12 +5,16 @@ export const dynamic = "force-dynamic";
 
 type Order = { id: string; status: string; total_minor: number; platform_fee_minor: number; currency: string; created_at: string };
 
-export default async function CreatorInsights() {
+export default async function CreatorInsights({searchParams}:{searchParams:Promise<{shop?:string}>}) {
   const supabase = await createSupabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return <main className="account-shell"><div className="account-card"><h1>Creator insights</h1><p>Please log in to view your shop activity.</p><Link href="/login" className="button">Log in</Link></div></main>;
 
-  const { data: store } = await supabase.from("stores").select("id,name,slug,status").eq("owner_id",user.id).maybeSingle();
+  const {shop:requestedShop}=await searchParams;
+  let storeQuery=supabase.from("stores").select("id,name,slug,status").eq("owner_id",user.id);
+  if(requestedShop)storeQuery=storeQuery.eq("slug",requestedShop);
+  else storeQuery=storeQuery.order("created_at",{ascending:true}).limit(1);
+  const {data:store}=await storeQuery.maybeSingle();
   if (!store) return <main className="account-shell"><div className="account-card"><h1>Start your creator journey</h1><p>Open your shop to start tracking your products and sales.</p><Link href="/create-shop" className="button">Create your shop</Link></div></main>;
 
   const from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -41,7 +45,7 @@ export default async function CreatorInsights() {
     { title: "Reach your first sale", done: paid.length > 0, href: "/dashboard", desc: "Promote your listings and earn trust with useful products." },
   ];
   return <main className="insights-page">
-    <div className="insights-header"><div><p className="guide-eyebrow">CREATOR SUCCESS</p><h1>Your shop at a glance.</h1><p className="muted">{store.name} · last 30 days · paid orders only</p></div><Link href="/dashboard" className="market-primary">Manage products →</Link></div>
+    <div className="insights-header"><div><p className="guide-eyebrow">CREATOR SUCCESS</p><h1>Your shop at a glance.</h1><p className="muted">{store.name} · last 30 days · paid orders only</p></div><Link href={"/dashboard?shop="+encodeURIComponent(store.slug)} className="market-primary">Manage products →</Link></div>
     {hasError && <p className="notice" role="alert">Some metrics could not be loaded. Values below may be incomplete.</p>}
     <div className="insights-stats">
       <div className="insight-stat"><span>Total product drafts & listings</span><strong>{productResult.count ?? "—"}</strong><small>All product statuses</small></div>
