@@ -3,12 +3,12 @@ import { FormEvent, useState } from "react";
 import { catalog, catalogByKey } from "@/lib/catalog";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 
-export function ProductForm() {
+export function ProductForm({storeId}:{storeId:string}) {
   const [message, setMessage] = useState(""); const [busy, setBusy] = useState(false);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setMessage(""); const form = new FormData(event.currentTarget);
     const catalogKey = String(form.get("catalogKey") ?? "");
-    const response = await fetch("/api/products", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ catalogKey: catalogKey || undefined, name: form.get("name"), description: form.get("description"), priceMinor: Math.round(Number(form.get("price")) * 100), currency: form.get("currency") }) });
+    const response = await fetch("/api/products", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ storeId, catalogKey: catalogKey || undefined, name: form.get("name"), description: form.get("description"), priceMinor: Math.round(Number(form.get("price")) * 100), currency: form.get("currency") }) });
     const result = await response.json();
     if (!response.ok) { setBusy(false); return setMessage(result.error ?? "Could not create product"); }
     const file = form.get("file");
