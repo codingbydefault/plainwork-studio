@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { CheckoutButton } from "@/components/checkout-button";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 18;
