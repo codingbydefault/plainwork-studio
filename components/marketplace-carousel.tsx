@@ -3,6 +3,7 @@ import {useRef} from "react";
 import Link from "next/link";
 import type {Locale} from "@/lib/i18n";
 import type {MarketplaceBook} from "@/lib/marketplace-books";
+import {displayPrice,type DisplayCurrency,type FxQuote} from "@/lib/currency";
 
 const photoIds:Record<string,string>={
  "cleaning-quotes":"photo-1581578731548-c64695cc6952",
@@ -27,7 +28,7 @@ const photoIds:Record<string,string>={
  "small-business-security-weekend":"photo-1563013544-824ae1b704d3"
 };
 
-export function MarketplaceCarousel({items,kind,locale,id}:{items:MarketplaceBook[];kind:"free"|"paid";locale:Locale;id:string}){
+export function MarketplaceCarousel({items,kind,locale,id,currency,fx}:{items:MarketplaceBook[];kind:"free"|"paid";locale:Locale;id:string;currency:DisplayCurrency;fx:FxQuote}){
  const rail=useRef<HTMLDivElement>(null);
  const nl=locale==="nl",free=kind==="free";
  function scroll(dir:number){
@@ -38,7 +39,7 @@ export function MarketplaceCarousel({items,kind,locale,id}:{items:MarketplaceBoo
  return <section id={id} className="guide-section marketplace-carousel" aria-label={nl?(free?"Gratis minicursussen":"Volledige betaalde cursussen"):(free?"Free microcourses":"Full paid courses")}>
    <div className="guide-heading">
      <div><p className="guide-eyebrow">{nl?(free?"GRATIS KENNISMAKEN":"VERDIEP JE KENNIS"):(free?"TRY IT FREE":"GO FURTHER")}</p>
-       <h2>{nl?(free?"20 gratis minicursussen":"20 uitgebreide cursussen"):(free?"20 free microcourses":"20 complete courses")}</h2>
+       <h2>{nl?(free?"${items.length} gratis minicursussen":"${items.length} uitgebreide cursussen"):(free?"${items.length} free microcourses":"${items.length} complete courses")}</h2>
        <p className="guide-subtitle">{nl?(free?"Een gratis introductie bij elk onderwerp.":"Praktische digitale boeken van CodedByDefault en Plainwork AI Studio."):(free?"A free introduction to every topic.":"Practical digital books from CodedByDefault and Plainwork AI Studio.")}</p>
      </div>
      <div className="guide-controls">
@@ -50,7 +51,7 @@ export function MarketplaceCarousel({items,kind,locale,id}:{items:MarketplaceBoo
    <div className="guide-rail marketplace-book-rail" ref={rail}>
      {items.map((book,index)=>{
        const photo=photoIds[book.slug]??"photo-1499750310107-5fef28a66643";
-       const price=new Intl.NumberFormat(nl?"nl-NL":"en-GB",{style:"currency",currency:book.currency.toUpperCase()}).format(book.priceMinor/100);
+       const price=displayPrice(book.priceMinor,book.currency,currency,fx,locale);
        return <article className="book-card marketplace-book-card" key={book.key}>
          <Link href={book.href} className="book-cover-link" aria-label={nl?`Bekijk ${book.title}`:`View ${book.title}`}>
            <div className="photo-cover" style={{backgroundImage:`linear-gradient(180deg, rgba(10,25,40,.12),rgba(10,25,40,.23) 44%,rgba(10,25,40,.94)),url("https://images.unsplash.com/${photo}?auto=format&fit=crop&w=520&q=80")`}}>
@@ -63,7 +64,7 @@ export function MarketplaceCarousel({items,kind,locale,id}:{items:MarketplaceBoo
            <p className="book-category">{book.shop}</p>
            <h3><Link className="book-title-link" href={book.href}>{book.title}</Link></h3>
            <div className="marketplace-book-bottom">
-             <strong className="book-price">{free?(nl?"Gratis":"Free"):price}</strong>
+             <strong className="book-price">{free?(nl?"Gratis":"Free"):price.value}</strong>
              <span className={book.available?"marketplace-book-status available":"marketplace-book-status"}>
                {book.available?(nl?"Beschikbaar":"Available"):(nl?"Binnenkort":"Coming soon")}
              </span>
