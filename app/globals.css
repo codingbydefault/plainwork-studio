@@ -263,3 +263,42 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #087F
 .explore-product-content h2 a{overflow-wrap:anywhere}
 .preview-pending{display:inline-flex;padding:11px 16px;background:#E7F4F0;border-radius:10px;color:#0A7167;font-weight:800;font-size:13px}
 @media(min-width:1600px){.explore-product-visual{min-height:250px}.explore-product-visual strong{font-size:25px}}
+
+
+/* Single compact book-carousel design for Home and Explore */
+.marketplace-carousel{padding-top:34px;padding-bottom:2px}
+.marketplace-carousel .guide-heading{margin-bottom:19px}
+.marketplace-carousel .guide-heading h2{font-size:clamp(24px,2.4vw,35px)}
+.marketplace-carousel .guide-rail{gap:15px;padding-bottom:15px}
+.marketplace-carousel .book-card{flex:0 0 clamp(172px,14.1vw,218px);min-width:0}
+.marketplace-carousel .photo-cover{height:clamp(236px,19vw,292px);padding:14px 12px 16px 18px}
+.marketplace-carousel .cover-logo{font-size:9px}
+.marketplace-carousel .cover-tag{font-size:8px}
+.marketplace-carousel .cover-bottom h3{font-size:clamp(17px,1.48vw,22px);line-height:1.16}
+.marketplace-carousel .cover-edition,.marketplace-carousel .cover-footer{font-size:9px}
+.marketplace-carousel .book-meta{padding-top:10px}
+.marketplace-carousel .book-meta h3{font-size:14px;line-height:1.33;margin:4px 0 9px;min-height:37px}
+.marketplace-carousel .book-category{font-size:10px;margin-bottom:2px}
+.marketplace-book-bottom{display:flex;justify-content:space-between;align-items:center;gap:7px;flex-wrap:wrap}
+.marketplace-book-bottom .book-price{font-size:17px;font-weight:900;margin:0}
+.marketplace-book-status{font-size:10px;background:#F0F3F2;color:#566B70;border-radius:7px;padding:4px 7px;font-weight:750}
+.marketplace-book-status.available{background:#E7F4F0;color:#087F76}
+.marketplace-carousel .book-details-link{display:inline-block;margin-top:8px;font-size:11px}
+.compact-explore{padding-top:27px}
+.compact-explore .explore-intro{margin-bottom:20px}
+.compact-explore .explore-intro h1{font-size:clamp(30px,4vw,48px)}
+.compact-explore .explore-filters{padding:15px 19px}
+.compact-explore .explore-results-heading{margin:19px 0}
+.compact-explore .explore-preview-info{margin:0 0 15px}
+.currency-price-note{font-size:12px;color:#627679;line-height:1.5;padding:13px 0}
+.pw-currency{width:auto;display:inline-flex;align-items:center;flex-shrink:0}
+.pw-currency select{width:82px;min-width:82px;height:38px;padding:7px;border:1px solid #D6E3DE;background:#F5F7F6;color:#172B32;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
+.pw-currency select:focus-visible{outline:2px solid #087F76;outline-offset:2px}
+@media(max-width:620px){
+ .marketplace-carousel .book-card{flex-basis:180px}
+ .marketplace-carousel .photo-cover{height:248px}
+ .marketplace-carousel .cover-bottom h3{font-size:19px}
+ .marketplace-carousel .guide-heading h2{font-size:27px}
+ .pw-currency select{width:66px;min-width:66px;height:33px;padding:4px;font-size:11px}
+ .header-actions{flex-wrap:wrap;justify-content:flex-end}
+}
