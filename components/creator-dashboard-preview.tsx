@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const features = [
   { icon:"▦", title:"Your own storefront",desc:"Give your digital products a place to live and a link you can share.",titleNl:"Je eigen shop",descNl:"Maak een plek voor je digitale producten met een deelbare link." },
-  { icon:"↗", title:"Sales insights",desc:"Track published products, paid orders and your shop's progress." },
+  { icon:"↗", title:"Sales insights",desc:"Track published products, paid orders and your shop's progress.",titleNl:"Inzicht in verkopen",descNl:"Bekijk je producten, betaalde bestellingen en voortgang." },
   { icon:"⇩", title:"Digital delivery",desc:"Deliver purchased files through a private download library.",titleNl:"Digitale levering",descNl:"Lever bestanden via een afgeschermde downloadbibliotheek." },
   { icon:"◎", title:"Stripe payments",desc:"Connect a Stripe account to take payments once your shop is approved.",titleNl:"Betalingen met Stripe",descNl:"Koppel je Stripe-account en ontvang betalingen na goedkeuring." },
 ];
