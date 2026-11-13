@@ -15,3 +15,5 @@ export function translatedProduct(slug:string|undefined,title:string,description
  const translation=locale==="nl"&&slug?titles[slug]:undefined;
  return {title:translation?.title??title,description:translation?.description??description};
 }
+
+export function findDutchCourseSlugs(search:string):string[]{const term=search.trim().toLocaleLowerCase('nl-NL');if(!term)return [];return Object.entries(titles).filter(([,entry])=>(entry.title+' '+entry.description).toLocaleLowerCase('nl-NL').includes(term)).map(([slug])=>slug);}
