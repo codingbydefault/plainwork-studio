@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getLocale, getCopy } from "@/lib/i18n-server";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import {CurrencySwitcher} from "@/components/currency-switcher";
-import {getDisplayCurrency} from "@/lib/currency";
+import {getDisplayCurrency} from "@/lib/currency-server";
 
 export const metadata = { title: "Plainwork Studio", description: "Verkoop en ontdek digitale cursussen en producten. Makers behouden 99% van de verkoopprijs vóór bijkomende kosten. | Buy and sell practical digital products." };
 
