@@ -16,7 +16,7 @@ export function marketplaceBooks(locale:Locale):MarketplaceBook[]{
  });
  const freeAI:MarketplaceBook[]=paid.filter(p=>p.shopSlug==="plainwork-ai-studio").map(p=>({
    ...p,key:"free-"+p.key,title:locale==="nl"?`Gratis minicursus: ${p.title}`:`Free microcourse: ${p.title}`,
-   href:p.href,priceMinor:0,available:false,kind:"free" as const
+   href:`/courses/${p.slug}/free`,priceMinor:0,available:false,kind:"free" as const
  }));
  return [...freeCoded,...freeAI,...paid];
 }
