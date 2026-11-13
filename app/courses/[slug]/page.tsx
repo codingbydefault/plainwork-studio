@@ -1,3 +1,5 @@
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
+import {displayPrice} from "@/lib/currency";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {getLocale} from "@/lib/i18n-server";
@@ -5,7 +7,7 @@ import {findCuratedCourse,curatedLaunchProducts} from "@/lib/launch-preview";
 export const dynamic="force-dynamic";
 export async function generateStaticParams(){return curatedLaunchProducts("nl").filter(p=>p.shopSlug==="plainwork-ai-studio").map(p=>({slug:p.slug}));}
 export default async function CoursePreview({params}:{params:Promise<{slug:string}>}){
-  const {slug}=await params,locale=await getLocale(),nl=locale==="nl";
+  const {slug}=await params,locale=await getLocale(),nl=locale==="nl";const [selectedCurrency,fx]=await Promise.all([getDisplayCurrency(),getFxQuote()]);
   const item=findCuratedCourse(slug,locale);
   if(!item)notFound();
   return <main className="explore-detail">
@@ -18,7 +20,7 @@ export default async function CoursePreview({params}:{params:Promise<{slug:strin
         <p>{nl?"Van":"By"} <strong>{item.shop}</strong></p>
         <p className="explore-detail-description">{item.description}</p>
         <p className="explore-detail-delivery">{nl?"Geplande cursus met gratis minicursus en volledige betaalde versie in Nederlands en Engels.": "Planned course with a free microcourse and paid full version in Dutch and English."}</p>
-        <div className="explore-detail-buy"><strong>{new Intl.NumberFormat(locale==="nl"?"nl-NL":"en-GB",{style:"currency",currency:"EUR"}).format(item.priceMinor/100)}</strong><span className="preview-pending">{nl?"Binnenkort beschikbaar — nog niet te koop":"Coming soon — not on sale yet"}</span></div>
+        <div className="explore-detail-buy"><strong>{displayPrice(item.priceMinor,"EUR",selectedCurrency,fx,locale).value}</strong><span className="preview-pending">{nl?"Binnenkort beschikbaar — nog niet te koop":"Coming soon — not on sale yet"}</span></div>
         <p className="muted">{nl?"We openen de verkoop pas na controle van de bestanden, taalversies en betaalfunctie.":"Sales open only after files, language editions and checkout are verified."}</p>
       </div>
     </section>
