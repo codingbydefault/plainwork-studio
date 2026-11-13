@@ -7,7 +7,7 @@ import {translatedProduct} from "@/lib/ai-courses-i18n";
 export const dynamic="force-dynamic";
 const PAGE_SIZE=20;
 type PublicProduct={id:string;title:string;slug:string;catalog_key:string|null;description:string|null;price_minor:number;currency:string;category:string|null;created_at:string;stores:{name:string;slug:string;status:string}|{name:string;slug:string;status:string}[]|null};
-type DisplayProduct={key:string;title:string;description:string;category:string;priceMinor:number;currency:string;shop:string;shopSlug:string;href:string;available:boolean;createdAt:string};
+type DisplayProduct={key:string;title:string;description:string;category:string;priceMinor:number;currency:string;shop:string;shopSlug:string;slug:string;href:string;available:boolean;createdAt:string};
 function storeOf(p:PublicProduct){return Array.isArray(p.stores)?p.stores[0]:p.stores;}
 export default async function Explore({searchParams}:{searchParams:Promise<{q?:string;category?:string;sort?:string;page?:string}>}){
  const locale=await getLocale(),nl=locale==="nl",params=await searchParams;
@@ -34,7 +34,7 @@ export default async function Explore({searchParams}:{searchParams:Promise<{q?:s
      if(known>=0){
        products[known]={...products[known],available:true,href:`/products/${product.id}`,priceMinor:product.price_minor,currency:product.currency,createdAt:product.created_at};
      }else{
-       products.push({key:"live:"+product.id,title:translated.title,description:translated.description??"",category:product.category??(nl?"Digitale producten":"Digital products"),priceMinor:product.price_minor,currency:product.currency,shop:shop.name,shopSlug:shop.slug,href:`/products/${product.id}`,available:true,createdAt:product.created_at});
+       products.push({key:"live:"+product.id,title:translated.title,description:translated.description??"",category:product.category??(nl?"Digitale producten":"Digital products"),priceMinor:product.price_minor,currency:product.currency,shop:shop.name,shopSlug:shop.slug,slug:product.slug,href:`/products/${product.id}`,available:true,createdAt:product.created_at});
      }
    }
  }catch{dataError=true;}
