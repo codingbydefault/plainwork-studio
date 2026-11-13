@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import {getLocale} from "@/lib/i18n-server";
-import {translatedProduct} from "@/lib/ai-courses-i18n";
+import {translatedProduct,findDutchCourseSlugs} from "@/lib/ai-courses-i18n";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 18;
@@ -45,7 +45,12 @@ export default async function Explore({
     .select("id,title,slug,description,price_minor,currency,category,created_at,stores!inner(name,slug,status)", { count: "exact" })
     .eq("status", "published")
     .eq("stores.status", "active");
-  if (query) builder = builder.ilike("title", `%${query.replace(/[%_\\]/g, "")}%`);
+  if (query) {
+    const term=query.replace(/[%_\\(),]/g,"");
+    const dutchSlugs=nl?findDutchCourseSlugs(term):[];
+    if(dutchSlugs.length)builder=builder.or(`title.ilike.%${term}%,slug.in.(${dutchSlugs.join(",")})`);
+    else builder=builder.ilike("title",`%${term}%`);
+  }
   if (category) builder = builder.eq("category", category);
   if (sort === "price-low") builder = builder.order("price_minor", { ascending: true });
   else if (sort === "price-high") builder = builder.order("price_minor", { ascending: false });
