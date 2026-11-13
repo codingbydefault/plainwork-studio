@@ -1,3 +1,4 @@
+import { getLocale, getCopy } from "@/lib/i18n-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 }
 
 export default async function GuideDetailPage({ params }: { params: Promise<Params> }) {
+  const locale=await getLocale(); const t=await getCopy();
   const { key, kind } = await params;
   const item = catalogByKey.get(key);
   if (!item || (kind !== "free" && kind !== "paid")) notFound();
@@ -66,7 +68,7 @@ export default async function GuideDetailPage({ params }: { params: Promise<Para
         </div>
         {free ? <div className="detail-action"><strong>Free download</strong><LeadMagnetForm guideKey={item.key}/></div> :
           <div className="detail-action"><strong>€{(item.paid.priceMinor / 100).toFixed(2)}</strong>
-            {productId ? <CheckoutButton productId={productId}/> : <p className="book-unavailable">Checkout is not available yet. This toolkit has not been published.</p>}
+            {productId ? <CheckoutButton productId={productId} locale={locale}/> : <p className="book-unavailable">Checkout is not available yet. This toolkit has not been published.</p>}
           </div>}
       </div>
     </section>
