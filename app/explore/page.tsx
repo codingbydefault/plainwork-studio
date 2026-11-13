@@ -83,14 +83,14 @@ export default async function Explore({
         const store = storeInfo(product.stores);
         return <article className="explore-product" key={product.id}>
           <Link className="explore-product-visual" href={`/products/${product.id}`}>
-            <span>{product.category || "{nl?"Digitale producten":"Digital products"}"}</span>
+            <span>{product.category || (nl?"Digitale producten":"Digital products")}</span>
             <strong>{product.title}</strong>
             <small>PLAINWORK STUDIO · {nl?"DIGITALE DOWNLOAD":"DIGITAL DOWNLOAD"}</small>
           </Link>
           <div className="explore-product-content">
             <p className="explore-seller">{nl?"Van":"By"} <Link href={`/store/${store?.slug}`}>{store?.name ?? (nl?"Maker":"Creator")}</Link></p>
             <h2><Link href={`/products/${product.id}`}>{product.title}</Link></h2>
-            <p className="explore-description">{product.description || "{nl?"Een praktisch digitaal product van een zelfstandige maker.":"A practical digital product from an independent creator."}"}</p>
+            <p className="explore-description">{product.description || (nl?"Een praktisch digitaal product van een zelfstandige maker.":"A practical digital product from an independent creator.")}</p>
             <div className="explore-product-bottom"><strong>{formatMoney(product.price_minor, product.currency)}</strong><Link href={`/products/${product.id}`}>{nl?"Meer informatie →":"See details →"}</Link></div>
           </div>
         </article>;
