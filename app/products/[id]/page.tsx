@@ -40,10 +40,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   return <main className="explore-detail">
     <nav className="detail-breadcrumb" aria-label="Breadcrumb"><Link href="/explore">{locale==="nl"?"Marktplaats":"Marketplace"}</Link><span>/</span><span>{product.category ?? "Digital product"}</span></nav>
     <section className="explore-detail-grid">
-      <div className="explore-detail-cover"><span>PLAINWORK STUDIO</span><strong>{tr.title}</strong><small>{product.category ?? "{locale==="nl"?"DIGITAAL PRODUCT":"DIGITAL PRODUCT"}"}</small></div>
-      <div className="explore-detail-info"><p className="guide-eyebrow">{product.category ?? "{locale==="nl"?"DIGITALE DOWNLOAD":"DIGITAL DOWNLOAD"}"}</p><h1>{tr.title}</h1>
+      <div className="explore-detail-cover"><span>PLAINWORK STUDIO</span><strong>{tr.title}</strong><small>{product.category ?? (locale==="nl"?"DIGITAAL PRODUCT":"DIGITAL PRODUCT")}</small></div>
+      <div className="explore-detail-info"><p className="guide-eyebrow">{product.category ?? (locale==="nl"?"DIGITALE DOWNLOAD":"DIGITAL DOWNLOAD")}</p><h1>{tr.title}</h1>
         <p>{t.sellerBy} <Link href={`/store/${store.slug}`}>{store.name}</Link></p>
-        <p className="explore-detail-description">{tr.description || "{locale==="nl"?"Praktische digitale inhoud van een onafhankelijke maker.":"Practical digital content from an independent creator."}"}</p>
+        <p className="explore-detail-description">{tr.description || (locale==="nl"?"Praktische digitale inhoud van een onafhankelijke maker.":"Practical digital content from an independent creator.")}</p>
         <p className="explore-detail-delivery">{t.delivery}</p>
         <div className="explore-detail-buy"><strong>{price(product)}</strong><CheckoutButton productId={product.id} locale={locale}/></div>
       </div>
