@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LeadMagnetForm } from "@/components/lead-magnet-form";
 import { CheckoutButton } from "@/components/checkout-button";
 import type { CatalogPair } from "@/lib/catalog";
+import type { Locale } from "@/lib/i18n";
 
 const photos: Record<string, string> = {
   "cleaning-quotes": "photo-1581578731548-c64695cc6952",
@@ -17,9 +18,9 @@ const photos: Record<string, string> = {
   "food-truck": "photo-1565123409695-7b5ef63a2efb",
   "web-agency-care": "photo-1460925895917-afdab827c52f"
 };
-type Props = { items: CatalogPair[]; kind: "free" | "paid"; published: Record<string, string> };
+type Props = { items: CatalogPair[]; kind: "free" | "paid"; published: Record<string, string>; locale?:Locale };
 
-export function GuideCarousel({ items, kind, published }: Props) {
+export function GuideCarousel({ items, kind, published, locale="nl" }: Props) {
   const rail = useRef<HTMLDivElement>(null);
   const free = kind === "free";
   function scroll(direction: number) {
@@ -55,7 +56,7 @@ export function GuideCarousel({ items, kind, published }: Props) {
             <Link href={url} className="book-details-link">See what’s inside →</Link>
             {free ? <LeadMagnetForm guideKey={item.key}/> : <>
               <p className="book-price">€{(item.paid.priceMinor/100).toFixed(2)}</p>
-              {productId ? <CheckoutButton productId={productId}/> : <p className="book-unavailable">Coming soon · secure checkout pending</p>}
+              {productId ? <CheckoutButton productId={productId} locale={locale}/> : <p className="book-unavailable">Coming soon · secure checkout pending</p>}
             </>}
           </div>
         </article>;
