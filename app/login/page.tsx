@@ -37,7 +37,7 @@ export default function LoginPage() {
         router.push("/dashboard"); router.refresh();
       }
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "We couldn't complete your request.");
+      setError(cause instanceof Error ? cause.message : (nl?"De aanvraag kon niet worden verwerkt.":"We could not complete your request."));
     } finally { setBusy(false); }
   }
 
