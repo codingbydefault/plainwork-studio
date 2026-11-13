@@ -2,7 +2,7 @@ import Link from "next/link";
 import {getLocale} from "@/lib/i18n-server";
 import {getMarketplaceBooks} from "@/lib/marketplace-books-server";
 import {MarketplaceCarousel} from "@/components/marketplace-carousel";
-import {getDisplayCurrency,getFxQuote,displayPrice} from "@/lib/currency";
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
 export const dynamic="force-dynamic";
 export default async function Explore({searchParams}:{searchParams:Promise<{q?:string;category?:string;sort?:string}>}){
  const locale=await getLocale(),nl=locale==="nl",params=await searchParams;
