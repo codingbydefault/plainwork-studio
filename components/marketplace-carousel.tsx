@@ -39,7 +39,7 @@ export function MarketplaceCarousel({items,kind,locale,id,currency,fx}:{items:Ma
  return <section id={id} className="guide-section marketplace-carousel" aria-label={nl?(free?"Gratis minicursussen":"Volledige betaalde cursussen"):(free?"Free microcourses":"Full paid courses")}>
    <div className="guide-heading">
      <div><p className="guide-eyebrow">{nl?(free?"GRATIS KENNISMAKEN":"VERDIEP JE KENNIS"):(free?"TRY IT FREE":"GO FURTHER")}</p>
-       <h2>{nl?(free?"${items.length} gratis minicursussen":"${items.length} uitgebreide cursussen"):(free?"${items.length} free microcourses":"${items.length} complete courses")}</h2>
+       <h2>{nl?(free?`${items.length} gratis minicursussen`:`${items.length} uitgebreide cursussen`):(free?`${items.length} free microcourses`:`${items.length} complete courses`)}</h2>
        <p className="guide-subtitle">{nl?(free?"Een gratis introductie bij elk onderwerp.":"Praktische digitale boeken van CodedByDefault en Plainwork AI Studio."):(free?"A free introduction to every topic.":"Practical digital books from CodedByDefault and Plainwork AI Studio.")}</p>
      </div>
      <div className="guide-controls">
