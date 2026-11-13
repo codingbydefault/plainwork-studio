@@ -1,3 +1,5 @@
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency-server";
+import {displayPrice} from "@/lib/currency";
 import { getLocale, getCopy } from "@/lib/i18n-server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 }
 
 export default async function GuideDetailPage({ params }: { params: Promise<Params> }) {
-  const locale=await getLocale(); const t=await getCopy();
+  const locale=await getLocale(); const t=await getCopy();const [selectedCurrency,fx]=await Promise.all([getDisplayCurrency(),getFxQuote()]);
   const { key, kind } = await params;
   const item = catalogByKey.get(key);
   if (!item || (kind !== "free" && kind !== "paid")) notFound();
@@ -69,8 +71,8 @@ export default async function GuideDetailPage({ params }: { params: Promise<Para
           <p><strong>{locale==="nl"?"Ontdek meer.":"Explore more."}</strong> {locale==="nl"?"Bekijk hieronder verwante cursussen en gidsen.":"Find matching toolkits and related guides below."}</p>
         </div>
         {free ? <div className="detail-action"><strong>{locale==="nl"?"Gratis downloaden":"Free download"}</strong><LeadMagnetForm guideKey={item.key}/></div> :
-          <div className="detail-action"><strong>€{(item.paid.priceMinor / 100).toFixed(2)}</strong>
-            {productId ? <CheckoutButton productId={productId} locale={locale}/> : <p className="book-unavailable">{locale==="nl"?"Deze cursus is nog niet gepubliceerd. Betalen is nog niet mogelijk.":"Checkout is not available yet. This toolkit has not been published."}</p>}
+          <div className="detail-action"><strong>{displayPrice(item.paid.priceMinor,"eur",selectedCurrency,fx,locale).value}</strong>
+            {productId ? <><CheckoutButton productId={productId} locale={locale}/><small className="currency-price-note">{locale==="nl"?"Uiteindelijk betaal je in de valuta die Stripe bij het afrekenen aangeeft.":"The checkout currency will be shown in Stripe."}</small></> : <p className="book-unavailable">{locale==="nl"?"Deze cursus is nog niet gepubliceerd. Betalen is nog niet mogelijk.":"Checkout is not available yet. This toolkit has not been published."}</p>}
           </div>}
       </div>
     </section>
