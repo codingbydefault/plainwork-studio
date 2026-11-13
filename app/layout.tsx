@@ -8,7 +8,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return <html lang="en"><body><div className="page"><header className="topbar">
     <Link className="brand" href="/">Plainwork Studio</Link>
     <nav className="nav" aria-label="Main navigation">
-      <Link href="/">Marketplace</Link>
+      <Link href="/">Home</Link>
+      <Link href="/explore">Explore products</Link>
       <Link href="/library">My library</Link>
       <Link href="/dashboard">Creator dashboard</Link>
     </nav>
