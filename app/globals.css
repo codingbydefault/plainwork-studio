@@ -254,3 +254,12 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #087F
   .explore-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .creator-feature-grid, .creator-setup-steps { column-gap: 22px; }
 }
+
+
+/* Honest catalog previews for pre-launch draft books */
+.explore-preview-info{padding:15px 19px;border:1px solid #CFE5DC;border-radius:13px;background:#E7F4F0;color:#225750;font-size:13px;line-height:1.6;margin:0 0 24px}
+.explore-coming-soon{color:#586D71;font-size:12px;font-weight:800;background:#F0F3F2;border-radius:8px;padding:7px 9px;text-align:center}
+.explore-product-bottom{flex-wrap:wrap}
+.explore-product-content h2 a{overflow-wrap:anywhere}
+.preview-pending{display:inline-flex;padding:11px 16px;background:#E7F4F0;border-radius:10px;color:#0A7167;font-weight:800;font-size:13px}
+@media(min-width:1600px){.explore-product-visual{min-height:250px}.explore-product-visual strong{font-size:25px}}
