@@ -1,12 +1,13 @@
 import { MarketplaceCarousel } from "@/components/marketplace-carousel";
 import {getMarketplaceBooks} from "@/lib/marketplace-books-server";
+import {getDisplayCurrency,getFxQuote} from "@/lib/currency";
 import { getCopy, getLocale } from "@/lib/i18n-server";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const locale=await getLocale(); const t=await getCopy();
-  const books=await getMarketplaceBooks(locale);
+  const [books,currency,fx]=await Promise.all([getMarketplaceBooks(locale),getDisplayCurrency(),getFxQuote()]);
   return <main className="modern-marketplace">
     <section className="market-hero clear-market-hero" aria-labelledby="marketplace-heading">
       <div className="clear-hero-intro">
@@ -33,9 +34,10 @@ export default async function Home() {
       <p className="clear-fee-note">{t.fees}</p>
     </section>
     <div className="market-benefits"><span>✳ {locale==="nl"?"Gratis zakelijke gidsen":"Free business guides"}</span><span>↗ {locale==="nl"?"Uitgebreide digitale cursussen":"Premium digital toolkits"}</span><span>◎ {locale==="nl"?"Toegang tot je aankopen":"Access to your purchases"}</span><span>✓ {locale==="nl"?"Verkoop je eigen producten":"Sell your own digital products"}</span></div>
-    <MarketplaceCarousel items={books.filter(b=>b.kind==="free")} kind="free" id="free-guides" locale={locale}/>
+    <MarketplaceCarousel items={books.filter(b=>b.kind==="free")} kind="free" id="free-guides" locale={locale} currency={currency} fx={fx}/>
     <aside className="market-break"><div><span className="market-break-label">{locale==="nl"?"KLAAR VOOR MEER?":"READY FOR MORE?"}</span><h2>{locale==="nl"?"Van een eerste stap naar je eigen systeem.":"From your first step to your full system."}</h2><p>{locale==="nl"?"Van een snelle kennismaking naar een volledig werkproces.":"Go from a quick win to a complete, ready-to-use workflow."}</p></div><a href="#premium-guides">{locale==="nl"?"Bekijk de volledige cursussen ↗":"Explore full toolkits ↗"}</a></aside>
-    <MarketplaceCarousel items={books.filter(b=>b.kind==="paid")} kind="paid" id="premium-guides" locale={locale}/>
+    <MarketplaceCarousel items={books.filter(b=>b.kind==="paid")} kind="paid" id="premium-guides" locale={locale} currency={currency} fx={fx}/>
+    <p className="currency-price-note">{currency==="GBP"&&fx?(locale==="nl"?`Pondprijzen zijn indicatieve omrekeningen met de referentiekoers van ${fx.date}. Afrekenen gebeurt in de valuta van het product.`:`Pound prices are indicative conversions using the ${fx.date} reference rate. Checkout uses the product's currency.`):(locale==="nl"?"Valutakeuze verandert de getoonde prijs; de betaalvaluta staat bij het afrekenen.":"Currency choice changes the displayed price; the checkout currency is shown at payment.")}</p>
     <section id="sell-your-work" className="seller-spotlight"><div className="seller-copy"><span className="seller-label">{locale==="nl"?"VOOR DIGITALE MAKERS":"FOR DIGITAL CREATORS"}</span><h2>{locale==="nl"?"Heb je waardevolle kennis?":"Made something valuable?"}<br/><span>{locale==="nl"?"Behoud 99% van je omzet.":"Keep 99% of your revenue."}</span></h2><p>{locale==="nl"?"Maak van je kennis een digitaal product. Verkoop gidsen, sjablonen en cursussen via Plainwork Studio.":"Turn your knowledge into income. List digital guides, templates and toolkits on Plainwork Studio and reach buyers looking for practical solutions."}</p><p className="seller-note">{locale==="nl"?"Je behoudt 99% van de verkoopprijs vóór transactiekosten, terugbetalingen en belastingen. Verkopersregistratie kan tijdens de lancering beperkt zijn.":"You keep 99% of each sale price before payment-processing fees, refunds and applicable taxes. Availability of seller onboarding may vary during launch."}</p><a href="/create-shop" className="seller-cta">{locale==="nl"?"Maak je eigen shop":"Explore creator dashboard"} <span aria-hidden="true">↗</span></a></div><div className="seller-highlight" aria-label="99 percent of the sale price before other applicable costs"><strong>99<span>%</span></strong><small>{locale==="nl"?"JOUW AANDEEL PER VERKOOP*":"YOUR SHARE OF EACH SALE*"}</small><span className="seller-highlight-bottom">{locale==="nl"?"Jouw producten. Jouw klanten.":"Your products. Your audience. Your upside."}</span></div></section>
     <section className="market-close"><span>PLAINWORK STUDIO</span><h2>{locale==="nl"?"Ontdek wat je nodig hebt.":"Discover what you need."}<br/><em>{locale==="nl"?"Deel wat je weet.":"Share what you know."}</em></h2><p>{locale==="nl"?"Praktische digitale producten voor kopers. Een marktplaats voor makers.":"Practical digital products for buyers. A creator-first marketplace for sellers."}</p><a href="#free-guides">{locale==="nl"?"Ontdek je eerste gratis gids ↗":"Find your first free guide ↗"}</a></section>
   </main>;
