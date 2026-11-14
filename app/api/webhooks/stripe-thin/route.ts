@@ -37,11 +37,14 @@ export async function POST(request: Request) {
     const complete = cardStatus === "active" && requirementStatus !== "currently_due" && requirementStatus !== "past_due";
 
     // This cached summary powers the dashboard only; the status endpoint still reads V2 directly.
-    await createSupabaseAdmin().from("stripe_accounts").update({
+    const db=createSupabaseAdmin();
+    const {data:mapping}=await db.from("stripe_accounts").update({
       charges_enabled: cardStatus === "active",
+      payouts_enabled: complete,
       onboarding_status: complete ? "complete" : "restricted",
       updated_at: new Date().toISOString(),
-    }).eq("account_id", account.id);
+    }).eq("account_id", account.id).select("store_id").single();
+    if(mapping)await db.from("stores").update({status:complete?"active":"draft"}).eq("id",mapping.store_id);
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Stripe thin webhook failed", error);

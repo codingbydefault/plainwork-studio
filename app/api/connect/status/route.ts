@@ -10,5 +10,7 @@ export async function GET(){try{const user=await requireUser();const db=createSu
   const cardStatus=account.configuration?.merchant?.capabilities?.card_payments?.status??"inactive";
   const requirementsStatus=account.requirements?.summary?.minimum_deadline?.status??null;
   const onboardingComplete=requirementsStatus!=="currently_due"&&requirementsStatus!=="past_due";
-  return NextResponse.json({accountId:account.id,readyToProcessPayments:cardStatus==="active",cardPaymentsStatus:cardStatus,requirementsStatus,onboardingComplete});
+  const ready=cardStatus==="active"&&onboardingComplete;
+  if(ready){const {data:mapping}=await db.from("stripe_accounts").update({charges_enabled:true,payouts_enabled:true,onboarding_status:"complete",updated_at:new Date().toISOString()}).eq("account_id",account.id).select("store_id").single();if(mapping)await db.from("stores").update({status:"active"}).eq("id",mapping.store_id)}
+  return NextResponse.json({accountId:account.id,readyToProcessPayments:ready,cardPaymentsStatus:cardStatus,requirementsStatus,onboardingComplete});
 }catch(error){return apiError(error)}}
