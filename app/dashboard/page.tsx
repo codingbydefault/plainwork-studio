@@ -1,9 +1,239 @@
 import { createSupabaseServer } from "@/lib/supabase/server";
+import Link from "next/link";
+import { getLocale } from "@/lib/i18n-server";
+import { CreatorDashboardPreview } from "@/components/creator-dashboard-preview";
 import { ConnectButton } from "@/components/connect-button";
 import { ProductForm } from "@/components/product-form";
+import { CourseEditionUpload } from "@/components/course-edition-upload";
 import { SubscriptionActions } from "@/components/subscription-actions";
-import { StoreSetupForm } from "@/components/store-setup-form";
-import Link from "next/link";
 
-export const dynamic="force-dynamic";
-export default async function Dashboard(){const supabase=await createSupabaseServer();const {data:{user}}=await supabase.auth.getUser();if(!user)return <main className="empty-state"><div className="eyebrow">Creator tools</div><h1>Sign in to open and manage your shop.</h1><p>Create products, connect Stripe, track orders, and deliver files securely.</p><Link className="button" href="/auth">Sign in or create an account</Link></main>;const {data:store}=await supabase.from("stores").select("id,name,slug,status,stripe_accounts(onboarding_status,charges_enabled,payouts_enabled)").eq("owner_id",user.id).maybeSingle();if(!store)return <main className="onboarding-shell"><section><div className="eyebrow">Creator onboarding · Step 1 of 3</div><h1>Create your digital storefront</h1><p className="muted">Choose a shop name and a memorable address. You can connect payouts and add products next.</p><div className="steps"><span className="active">1 Shop</span><span>2 Payouts</span><span>3 Products</span></div></section><section className="panel"><StoreSetupForm/></section></main>;const {data:orders}=await supabase.from("orders").select("id,status,total_minor,platform_fee_minor,currency,created_at").eq("store_id",store.id).order("created_at",{ascending:false}).limit(20);const account=store.stripe_accounts as unknown as {onboarding_status:string;charges_enabled:boolean;payouts_enabled:boolean}|null;return <main><section className="dashboard-hero"><div><div className="eyebrow">Creator dashboard</div><h1>{store.name}</h1><p className="muted">plainwork.studio/store/{store.slug} · {store.status}</p></div><div className="row"><Link className="button secondary" href={`/store/${store.slug}`}>View shop</Link><ConnectButton/></div></section><div className="metric-grid"><div className="metric"><span>Stripe onboarding</span><strong>{account?.onboarding_status??"Not started"}</strong></div><div className="metric"><span>Payments</span><strong>{account?.charges_enabled?"Enabled":"Action needed"}</strong></div><div className="metric"><span>Payouts</span><strong>{account?.payouts_enabled?"Enabled":"Not ready"}</strong></div><div className="metric"><span>Platform fee</span><strong>1%</strong></div></div>{account&&<><section className="panel"><div className="section-heading"><div><div className="eyebrow">Products</div><h2>Add a digital product</h2></div></div><ProductForm/></section><section className="panel"><h2>Creator plan</h2><SubscriptionActions/></section></>}<section className="panel"><div className="section-heading"><div><div className="eyebrow">Sales</div><h2>Orders and payouts</h2></div></div>{orders?.length?<table className="table"><thead><tr><th>Date</th><th>Status</th><th>Gross</th><th>Platform fee</th><th>Creator allocation*</th></tr></thead><tbody>{orders.map(order=><tr key={order.id}><td>{new Date(order.created_at).toLocaleDateString()}</td><td>{order.status}</td><td>{order.total_minor/100} {order.currency.toUpperCase()}</td><td>{order.platform_fee_minor/100}</td><td>{(order.total_minor-order.platform_fee_minor)/100}</td></tr>)}</tbody></table>:<div className="empty-table"><strong>No orders yet</strong><span>Your sales will appear here after your first purchase.</span></div>}<p className="muted">*Before Stripe processing costs, taxes, refunds, disputes, and payout timing.</p></section></main>}
+export const dynamic = "force-dynamic";
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ shop?: string }>;
+}) {
+  const nl = (await getLocale()) === "nl";
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return <CreatorDashboardPreview locale={nl ? "nl" : "en"} />;
+  const { shop: requestedShop } = await searchParams;
+  const { data: ownedShops } = await supabase
+    .from("stores")
+    .select(
+      "id,name,slug,stripe_accounts(onboarding_status,charges_enabled,payouts_enabled)",
+    )
+    .eq("owner_id", user.id)
+    .order("created_at", { ascending: true });
+  const shops = ownedShops ?? [];
+  const store =
+    shops.find((s) => s.slug === requestedShop) ??
+    (requestedShop ? null : (shops[0] ?? null));
+  const { data: myProducts } = store
+    ? await supabase
+        .from("products")
+        .select("id,title")
+        .eq("store_id", store.id)
+        .order("created_at", { ascending: false })
+        .limit(100)
+    : { data: [] };
+  const { data: orders } = store
+    ? await supabase
+        .from("orders")
+        .select("id,status,total_minor,platform_fee_minor,currency,created_at")
+        .eq("store_id", store.id)
+        .order("created_at", { ascending: false })
+        .limit(20)
+    : { data: [] };
+  const account = store?.stripe_accounts as unknown as {
+    onboarding_status: string;
+    charges_enabled: boolean;
+    payouts_enabled: boolean;
+  } | null;
+  return (
+    <main>
+      <section className="shop-switcher">
+        <div>
+          <p className="guide-eyebrow">
+            {nl ? "JOUW SHOPS" : "YOUR STOREFRONTS"}
+          </p>
+          <h2>{nl ? "Beheer je shops" : "Manage your shops"}</h2>
+        </div>
+        <div className="shop-switcher-links">
+          {shops.map((s) => (
+            <Link
+              key={s.id}
+              className={
+                store?.id === s.id ? "shop-switch active" : "shop-switch"
+              }
+              href={"/dashboard?shop=" + encodeURIComponent(s.slug)}
+            >
+              {s.name}
+            </Link>
+          ))}
+          <Link className="shop-switch shop-add" href="/create-shop">
+            {nl ? "+ Nieuwe shop" : "+ New shop"}
+          </Link>
+        </div>
+      </section>
+      {!store ? (
+        <p className="notice">
+          {nl
+            ? "Kies hierboven een shop om producten en betalingen te beheren."
+            : "Select a shop above to manage its products and payments."}
+        </p>
+      ) : (
+        <>
+          <div className="dashboard-quicklinks">
+            <Link
+              className="market-primary"
+              href={
+                "/dashboard/insights?shop=" + encodeURIComponent(store.slug)
+              }
+            >
+              {nl ? "Bekijk je resultaten ↗" : "View shop insights ↗"}
+            </Link>
+            {store && (
+              <Link href={"/store/" + store.slug} className="market-link">
+                {nl ? "Bekijk je shop →" : "View your storefront →"}
+              </Link>
+            )}
+          </div>
+          <section className="panel">
+            <div className="row">
+              <div>
+                <div className="eyebrow">
+                  {nl ? "Verkopersdashboard" : "Creator dashboard"}
+                </div>
+                <h1>
+                  {store?.name ??
+                    (nl ? "Maak je shop" : "Create your storefront")}
+                </h1>
+              </div>
+              {store && <ConnectButton storeId={store.id} />}
+            </div>
+            {store ? (
+              <div className="grid">
+                <div className="card">
+                  <span className="muted">
+                    {nl ? "Stripe-registratie" : "Stripe onboarding"}
+                  </span>
+                  <div className="stat">
+                    {account?.onboarding_status ??
+                      (nl ? "Nog niet gestart" : "Not started")}
+                  </div>
+                </div>
+                <div className="card">
+                  <span className="muted">{nl ? "Betalingen" : "Charges"}</span>
+                  <div className="stat">
+                    {account?.charges_enabled
+                      ? nl
+                        ? "Actief"
+                        : "Enabled"
+                      : nl
+                        ? "Uitgeschakeld"
+                        : "Disabled"}
+                  </div>
+                </div>
+                <div className="card">
+                  <span className="muted">
+                    {nl ? "Uitbetalingen" : "Payouts"}
+                  </span>
+                  <div className="stat">
+                    {account?.payouts_enabled
+                      ? nl
+                        ? "Actief"
+                        : "Enabled"
+                      : nl
+                        ? "Uitgeschakeld"
+                        : "Disabled"}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="notice">
+                {nl
+                  ? "Maak eerst je shop aan en rond de Stripe-registratie af om betalingen te kunnen ontvangen."
+                  : "Create the store row through the initial setup flow or Supabase dashboard, then return here to onboard with Stripe."}
+              </p>
+            )}
+          </section>
+          {account && (
+            <>
+              <section className="panel">
+                <h2>{nl ? "Abonnement voor makers" : "Creator plan"}</h2>
+                <p className="muted">
+                  {nl
+                    ? "Beheer je abonnement via Stripe."
+                    : "Subscribe on the platform or open Stripe&apos;s billing portal to manage the plan."}
+                </p>
+                <SubscriptionActions storeId={store.id} />
+              </section>
+              <section className="panel">
+                <h2>
+                  {nl
+                    ? "Maak een digitaal product"
+                    : "Create a digital product"}
+                </h2>
+                <p className="muted">
+                  {nl
+                    ? "Je product wordt als concept opgeslagen totdat het bestand is geüpload en beoordeeld."
+                    : "The product is created on your connected Stripe account and saved as a Plainwork draft until its secure file is uploaded."}
+                </p>
+                <ProductForm storeId={store.id} />
+              </section>
+              <section className="panel">
+                <h2>
+                  {nl
+                    ? "Nederlandse en Engelse versies"
+                    : "Dutch and English editions"}
+                </h2>
+                <CourseEditionUpload products={myProducts ?? []} />
+              </section>
+            </>
+          )}
+          <section className="panel">
+            <h2>
+              {nl
+                ? "Bestellingen, terugbetalingen en verdeling"
+                : "Orders, refunds and payout allocation"}
+            </h2>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>{nl ? "Datum" : "Date"}</th>
+                  <th>Status</th>
+                  <th>{nl ? "Bruto" : "Gross"}</th>
+                  <th>{nl ? "Platformkosten" : "Platform fee"}</th>
+                  <th>{nl ? "Aandeel maker*" : "Creator allocation*"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders?.map((order) => (
+                  <tr key={order.id}>
+                    <td>{new Date(order.created_at).toLocaleDateString()}</td>
+                    <td>{order.status}</td>
+                    <td>
+                      {order.total_minor / 100} {order.currency.toUpperCase()}
+                    </td>
+                    <td>{order.platform_fee_minor / 100}</td>
+                    <td>
+                      {(order.total_minor - order.platform_fee_minor) / 100}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="muted">
+              {nl
+                ? "*Vóór transactiekosten, belastingen, terugbetalingen en overige inhoudingen. Stripe toont de definitieve uitbetalingsstatus."
+                : "*Before Stripe processing costs, taxes, refunds, disputes, and payout timing. Actual payout status remains authoritative in Stripe."}
+            </p>
+          </section>
+        </>
+      )}
+    </main>
+  );
+}
