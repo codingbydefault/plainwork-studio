@@ -6,16 +6,16 @@ import { serverEnv } from "@/lib/env";
 import { apiError } from "@/lib/http";
 import { z } from "zod";
 
-const bodySchema = z.object({ country: z.string().length(2).transform((value) => value.toLowerCase()) });
+const bodySchema = z.object({ country: z.string().length(2).transform((value) => value.toLowerCase()), storeId: z.string().uuid() });
 
 export async function POST(request: Request) {
   try {
     const user = await requireUser();
-    const { country } = bodySchema.parse(await request.json());
+    const { country, storeId } = bodySchema.parse(await request.json());
     if (!user.email) throw new Error("Your account needs an email address before Stripe onboarding");
 
     const db = createSupabaseAdmin();
-    const { data: store } = await db.from("stores").select("id,name,stripe_accounts(account_id)").eq("owner_id", user.id).single();
+    const { data: store } = await db.from("stores").select("id,name,stripe_accounts(account_id)").eq("owner_id", user.id).eq("id", storeId).single();
     if (!store) throw new Error("Create a store first");
 
     let accountId = (store.stripe_accounts as unknown as { account_id: string } | null)?.account_id;

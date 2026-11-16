@@ -1,0 +1,40 @@
+export type Locale = "nl" | "en";
+export const isLocale = (value: unknown): value is Locale => value === "nl" || value === "en";
+export const copy = {
+  nl: {
+    home: "Home", explore: "Ontdek producten", library: "Mijn bibliotheek", dashboard: "Verkopersdashboard",
+    login: "Inloggen", createShop: "Maak een shop", language: "Taal",
+    marketEyebrow: "MARKTPLAATS VOOR DIGITALE PRODUCTEN", marketHeading: "Verkoop je digitale producten.", marketHighlight: "Behoud 99% van je omzet.",
+    marketSlogan: "Zet je kennis om in inkomsten!", marketExplainer: "Eén plek om je kennis te verkopen en handige digitale producten van anderen te ontdekken.",
+    creator: "IK WIL VERKOPEN", creatorHeading: "Verdien aan je kennis.", creatorDescription: "Verkoop gidsen, e-books, sjablonen en werkboeken. Je behoudt 99% van de verkoopprijs vóór bijkomende kosten.",
+    creatorCTA: "Zet je kennis om in inkomsten!", buyer: "IK WIL ONTDEKKEN", buyerHeading: "Ontdek iets dat je verder helpt.",
+    buyerDescription: "Bekijk gratis minicursussen en uitgebreide betaalde cursussen om bij te leren of je onderneming te laten groeien.",
+    buyerCTA: "Ontdek digitale producten", paidCTA: "Of bekijk de betaalde cursussen",
+    fees: "*99% van de verkoopprijs vóór verwerkingskosten, terugbetalingen en belastingen. Inkomsten zijn niet gegarandeerd.",
+    back: "Terug naar de marktplaats", purchase: "Veilig bestellen", preparing: "Beveiligde betaling openen…", chooseLanguage: "Kies de taal van je cursus",
+    nlBook: "Nederlands", enBook: "English", noEdition: "Deze cursus is nog niet in jouw taal beschikbaar.",
+    delivery: "Digitale aankoop · beschikbaar in je bibliotheek na bevestigde betaling",
+    sellerBy: "Gemaakt door", related: "Meer cursussen om te ontdekken", relatedAll: "Bekijk alles",
+    purchases: "Mijn aankopen", download: "Downloaden", purchased: "Gekocht op",
+    emptyLibrary: "Je betaalde aankopen verschijnen hier nadat de betaling is bevestigd.",
+    signinLibrary: "Log in om je aankopen en downloads te bekijken.",
+  },
+  en: {
+    home: "Home", explore: "Explore products", library: "My library", dashboard: "Creator dashboard",
+    login: "Log in", createShop: "Create a shop", language: "Language",
+    marketEyebrow: "THE MARKETPLACE FOR DIGITAL PRODUCTS", marketHeading: "Sell your digital products.", marketHighlight: "Keep 99% of your revenue.",
+    marketSlogan: "Turn your knowledge, into cash!", marketExplainer: "One place to share what you create and discover useful digital products from others.",
+    creator: "I'M A CREATOR", creatorHeading: "Turn what you know into income.", creatorDescription: "Sell guides, e-books, templates and toolkits. Keep 99% of the sale price before other fees and costs.",
+    creatorCTA: "Turn your knowledge, into cash!", buyer: "I'M HERE TO EXPLORE", buyerHeading: "Find your next useful idea.",
+    buyerDescription: "Browse free microcourses and ready-to-use paid courses to learn a skill or grow your business.",
+    buyerCTA: "Explore digital products", paidCTA: "Or browse premium courses",
+    fees: "*99% of the sale price before processing fees, refunds and applicable taxes. Earnings aren't guaranteed.",
+    back: "Back to the marketplace", purchase: "Buy securely", preparing: "Opening secure checkout…", chooseLanguage: "Choose your course language",
+    nlBook: "Nederlands", enBook: "English", noEdition: "This course isn't available in your selected language yet.",
+    delivery: "Digital purchase · available in your library after confirmed payment",
+    sellerBy: "Created by", related: "More products to explore", relatedAll: "Browse all",
+    purchases: "My purchases", download: "Download", purchased: "Purchased",
+    emptyLibrary: "Your completed purchases will appear here after payment is confirmed.",
+    signinLibrary: "Sign in to view purchases and download your products.",
+  }
+} as const;
